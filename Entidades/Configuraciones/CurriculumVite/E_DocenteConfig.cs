@@ -105,6 +105,47 @@ namespace Entidades.Configuraciones.CurriculumVite
                 .WithMany(ca => ca.Docentes)
                 .HasForeignKey(e => e.IdCuerpoAcademico)
                 .OnDelete(DeleteBehavior.SetNull);
+                
+            // Relaciones con entidades dependientes (colecciones)
+            builder.HasMany(d => d.Contactos)
+                .WithOne()
+                .HasForeignKey(c => c.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            builder.HasMany(d => d.Educaciones)
+                .WithOne()
+                .HasForeignKey(e => e.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            builder.HasMany(d => d.Experiencias)
+                .WithOne()
+                .HasForeignKey(e => e.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            builder.HasMany(d => d.Publicaciones)
+                .WithOne()
+                .HasForeignKey(p => p.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            builder.HasMany(d => d.Proyectos)
+                .WithOne()
+                .HasForeignKey(p => p.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            builder.HasMany(d => d.TesisDirigidas)
+                .WithOne()
+                .HasForeignKey(t => t.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            builder.HasMany(d => d.Distinciones)
+                .WithOne()
+                .HasForeignKey(d => d.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            builder.HasMany(d => d.Documentos)
+                .WithOne()
+                .HasForeignKey(doc => doc.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 } 

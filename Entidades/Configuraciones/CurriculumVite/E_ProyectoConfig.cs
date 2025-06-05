@@ -21,11 +21,7 @@ namespace Entidades.Configuraciones.CurriculumVite
             builder.Property(e => e.PeriodoInicio).HasColumnName("periodoInicio");
             builder.Property(e => e.PeriodoFin).HasColumnName("periodoFin").IsRequired();
             
-            // Configurar la relación con E_Docente explícitamente (igual que Educacion y Experiencia)
-            builder.HasOne<E_Docente>()
-                   .WithMany(d => d.Proyectos)
-                   .HasForeignKey(e => e.IdDocente)
-                   .OnDelete(DeleteBehavior.Cascade);
+            // NO configurar relación aquí - ya está en E_DocenteConfig
         }
     }
 }

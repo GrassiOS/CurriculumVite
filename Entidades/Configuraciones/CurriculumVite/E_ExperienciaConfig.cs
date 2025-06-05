@@ -20,11 +20,7 @@ namespace Entidades.Configuraciones.CurriculumVite
             builder.Property(e => e.FechaInicio).HasColumnName("fechaInicio");
             builder.Property(e => e.FechaFin).HasColumnName("fechaFin");
             
-            // Configurar la relación con E_Docente explícitamente (igual que Educacion)
-            builder.HasOne<E_Docente>()
-                   .WithMany(d => d.Experiencias)
-                   .HasForeignKey(e => e.IdDocente)
-                   .OnDelete(DeleteBehavior.Cascade);
+            // NO configurar relación aquí - ya está en E_DocenteConfig
         }
     }
 }

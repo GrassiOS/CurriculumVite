@@ -84,6 +84,7 @@ namespace Datos
             modelBuilder.Entity<CVProyecto>().ToTable("Proyecto", "CV");
             modelBuilder.Entity<CVTesisDirigida>().ToTable("TesisDirigida", "CV");
             modelBuilder.Entity<CVExperiencia>().ToTable("Experiencia", "CV");
+            modelBuilder.Entity<CVEducacion>().ToTable("Educacion", "CV");
             modelBuilder.Entity<CVContactoDocente>().ToTable("ContactoProfesor", "CV");
             modelBuilder.Entity<CVTipoContacto>().ToTable("TipoContacto", "CV");
             modelBuilder.Entity<CVCuerpoAcademico>().ToTable("CuerpoAcademico", "CV");

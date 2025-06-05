@@ -18,11 +18,7 @@ namespace Entidades.Configuraciones.CurriculumVite
             builder.Property(e => e.Anio);
             builder.Property(e => e.Enlace);
             
-            // Configurar la relación con E_Docente explícitamente
-            builder.HasOne<E_Docente>()
-                   .WithMany(d => d.Publicaciones)
-                   .HasForeignKey(p => p.IdDocente)
-                   .OnDelete(DeleteBehavior.Cascade);
+            // NO configurar relación aquí - ya está en E_DocenteConfig
         }
     }
 }

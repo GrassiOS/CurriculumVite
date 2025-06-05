@@ -22,11 +22,7 @@ namespace Entidades.Configuraciones.CurriculumVite
             builder.Property(e => e.AnioInicio).HasColumnName("anioInicio");
             builder.Property(e => e.AnioFin).HasColumnName("anioFin");
             
-            // Configurar la relación con E_Docente explícitamente (igual que Publicacion)
-            builder.HasOne<E_Docente>()
-                   .WithMany(d => d.Educaciones)
-                   .HasForeignKey(e => e.IdDocente)
-                   .OnDelete(DeleteBehavior.Cascade);
+            // NO configurar relación aquí - ya está en E_DocenteConfig
         }
     }
 }
