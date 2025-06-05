@@ -485,8 +485,8 @@
                 var resultado = await DocenteServicios.InsertarDocente(docente);
                 if (resultado.Resultado)
                 {
-                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Docente agregado exitosamente");
-                    Navigation.NavigateTo("/CV/Docentes");
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Docente agregado exitosamente. Ahora puedes agregar sus contactos.");
+                    Navigation.NavigateTo($"/CV/Docentes/{resultado.Entidad?.IdDocente}/Contactos");
                 }
                 else
                 {
