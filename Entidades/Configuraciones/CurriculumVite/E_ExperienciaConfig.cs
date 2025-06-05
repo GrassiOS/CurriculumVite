@@ -10,18 +10,21 @@ namespace Entidades.Configuraciones.CurriculumVite
         {
             builder.ToTable("Experiencia", "CV");
             builder.HasKey(e => e.IdExperiencia);
-            builder.Property(e => e.IdDocente).IsRequired();
-            builder.Property(e => e.Puesto).HasMaxLength(200);
-            builder.Property(e => e.Institucion).HasMaxLength(200);
-            builder.Property(e => e.Descripcion);
-            builder.Property(e => e.FechaInicio);
-            builder.Property(e => e.FechaFin).IsRequired();
             
-            // Configurar la relación con E_Docente
+            // Mapeo de columnas según el schema de la BD
+            builder.Property(e => e.IdExperiencia).HasColumnName("IdExperiencia");
+            builder.Property(e => e.IdDocente).HasColumnName("IdDocente").IsRequired();
+            builder.Property(e => e.Puesto).HasColumnName("puesto").HasMaxLength(400);
+            builder.Property(e => e.Institucion).HasColumnName("institucion").HasMaxLength(400);
+            builder.Property(e => e.Descripcion).HasColumnName("descripcion");
+            builder.Property(e => e.FechaInicio).HasColumnName("fechaInicio");
+            builder.Property(e => e.FechaFin).HasColumnName("fechaFin");
+            
+            // Configurar la relación con E_Docente explícitamente (igual que Educacion)
             builder.HasOne<E_Docente>()
-                .WithMany(d => d.Experiencias)
-                .HasForeignKey(exp => exp.IdDocente)
-                .OnDelete(DeleteBehavior.Cascade);
+                   .WithMany(d => d.Experiencias)
+                   .HasForeignKey(e => e.IdDocente)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

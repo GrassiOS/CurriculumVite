@@ -74,6 +74,20 @@ namespace Datos
         {
             base.OnModelCreating(modelBuilder);
 
+            // Configurar esquema por defecto para entidades CV
+            modelBuilder.HasDefaultSchema("dbo");
+            
+            // Configurar EXPLÍCITAMENTE que las entidades CV usen el esquema CV
+            modelBuilder.Entity<CVDocumento>().ToTable("Documento", "CV");
+            modelBuilder.Entity<CVPublicacion>().ToTable("Publicacion", "CV");
+            modelBuilder.Entity<CVDistincion>().ToTable("Distincion", "CV");
+            modelBuilder.Entity<CVProyecto>().ToTable("Proyecto", "CV");
+            modelBuilder.Entity<CVTesisDirigida>().ToTable("TesisDirigida", "CV");
+            modelBuilder.Entity<CVExperiencia>().ToTable("Experiencia", "CV");
+            modelBuilder.Entity<CVContactoDocente>().ToTable("ContactoProfesor", "CV");
+            modelBuilder.Entity<CVTipoContacto>().ToTable("TipoContacto", "CV");
+            modelBuilder.Entity<CVCuerpoAcademico>().ToTable("CuerpoAcademico", "CV");
+
             // Planes de Estudio Configurations
             modelBuilder.ApplyConfiguration(new CarreraConfig());
             modelBuilder.ApplyConfiguration(new PlanEstudiosConfig());

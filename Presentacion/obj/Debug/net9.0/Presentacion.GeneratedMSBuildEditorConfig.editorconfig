@@ -40,6 +40,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ1YvRG9jZW50ZXMvR2VzdGlvbkRvY2VudGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Areas/CV/Docentes/GestorEducacion.razor]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ1YvRG9jZW50ZXMvR2VzdG9yRWR1Y2FjaW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Areas/CV/Docentes/GestorExperiencia.razor]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ1YvRG9jZW50ZXMvR2VzdG9yRXhwZXJpZW5jaWEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Areas/CV/Docentes/GestorPublicaciones.razor]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ1YvRG9jZW50ZXMvR2VzdG9yUHVibGljYWNpb25lcy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -294,6 +302,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Components/Shared/EncabezadoPlanesEstudio.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9TaGFyZWQvRW5jYWJlemFkb1BsYW5lc0VzdHVkaW8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Components/Shared/ModalEducacion.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9TaGFyZWQvTW9kYWxFZHVjYWNpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Components/Shared/ModalExperiencia.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9TaGFyZWQvTW9kYWxFeHBlcmllbmNpYS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Components/Shared/ModalPublicacion.razor]

@@ -567,9 +567,21 @@
         var random = new Random();
         
         // Arrays de nombres mexicanos típicos
-        var nombres = new[] { "Juan Carlos", "María Elena", "José Luis", "Ana Patricia", "Carlos Eduardo", "Laura Isabel", "Miguel Ángel", "Rosa María", "Francisco Javier", "Guadalupe" };
-        var apellidosPaternos = new[] { "González", "Rodríguez", "Martínez", "García", "López", "Hernández", "Pérez", "Sánchez", "Ramírez", "Torres" };
-        var apellidosMaternos = new[] { "Morales", "Jiménez", "Ruiz", "Díaz", "Moreno", "Muñoz", "Álvarez", "Romero", "Gutiérrez", "Vargas" };
+        var nombres = new[] { 
+            "Jorge", "Daniel", "Gabriel", "William", "Declan", "Aaron", 
+            "David", "Alejandro", "Ricardo", "Thomas", "Bukayo", "Kai"
+        };
+
+        var apellidosPaternos = new[] { 
+            "Raya", "Santiago", "Nolan", "Harper", "Lopez", "Bradford", 
+            "Chen", "Magalhaes", "Saliba", "Rice"
+        };
+
+        var apellidosMaternos = new[] { 
+            "Saka", "Ferez", "Gerardo", "Nazario", "Romero", "Navarro", 
+            "Fuentes", "Castillo", "Ortega", "Silva"
+        };
+
         
         var nombre = nombres[random.Next(nombres.Length)];
         var paterno = apellidosPaternos[random.Next(apellidosPaternos.Length)];

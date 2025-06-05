@@ -1,0 +1,363 @@
+@using Entidades.DTO.CurriculumVite
+@using Entidades.Utilidades
+@using Entidades.Generales
+@using Servicios.IRepositorios.CurriculumVite
+@using Servicios.IRepositorios
+@using Entidades.Modelos.CurriculumVite
+@inject ISRepositorioExperiencia ExperienciaServicios
+@inject ISRepositorioDocumento DocumentoServicios
+@inject IDocumentRepository DocumentRepository
+@inject IJSRuntime JSRuntime
+
+<!-- Modal -->
+<div class="modal fade" id="modalExperiencia" tabindex="-1" aria-labelledby="modalExperienciaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2D6B3C; color: white;">
+                <h5 class="modal-title" id="modalExperienciaLabel">
+                    <i class="fas fa-briefcase"></i> 
+                    @(EsEdicion ? "Editar Experiencia" : "Agregar Experiencia")
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <EditForm Model="ExperienciaActual" OnValidSubmit="GuardarExperiencia">
+                <DataAnnotationsValidator />
+                
+                <div class="modal-body">
+                    @if (Guardando)
+                    {
+                        <div class="text-center py-3">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="visually-hidden">Guardando...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Guardando experiencia...</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <!-- Información Básica -->
+                            <div class="col-12 mb-4">
+                                <h6 class="text-muted mb-3">
+                                    <i class="fas fa-info-circle"></i> Información Básica
+                                </h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Puesto / Cargo *</label>
+                                        <InputText @bind-Value="ExperienciaActual.Puesto" class="form-control" 
+                                                   placeholder="Ej: Profesor de Tiempo Completo" />
+                                        <ValidationMessage For="@(() => ExperienciaActual.Puesto)" class="text-danger small" />
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Institución / Empresa *</label>
+                                        <InputText @bind-Value="ExperienciaActual.Institucion" class="form-control" 
+                                                   placeholder="Ej: Universidad Autónoma de Baja California" />
+                                        <ValidationMessage For="@(() => ExperienciaActual.Institucion)" class="text-danger small" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Período -->
+                            <div class="col-12 mb-4">
+                                <h6 class="text-muted mb-3">
+                                    <i class="fas fa-calendar"></i> Período de Trabajo
+                                </h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Fecha de Inicio *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                            <InputDate @bind-Value="ExperienciaActual.FechaInicio" class="form-control" />
+                                        </div>
+                                        <ValidationMessage For="@(() => ExperienciaActual.FechaInicio)" class="text-danger small" />
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Fecha de Fin</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                            <InputDate @bind-Value="ExperienciaActual.FechaFin" class="form-control" 
+                                                       disabled="@EsTrabajoActual" />
+                                            <span class="input-group-text">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="trabajoActual" @onchange="OnTrabajoActualChanged">
+                                                    <label class="form-check-label" for="trabajoActual">
+                                                        Actual
+                                                    </label>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        @if (!EsTrabajoActual)
+                                        {
+                                            <div class="form-text">Deja vacío si es tu trabajo actual</div>
+                                        }
+                                    </div>
+                                </div>
+                                
+                                @if (ExperienciaActual.FechaInicio.HasValue)
+                                {
+                                    <div class="alert alert-info mt-2">
+                                        <i class="fas fa-info-circle"></i>
+                                        <strong>Duración:</strong> 
+                                        @{
+                                            var fechaFin = EsTrabajoActual ? DateTime.Now : (ExperienciaActual.FechaFin ?? DateTime.Now);
+                                            var meses = ExperienciaActual.FechaInicio.HasValue ? 
+                                                (fechaFin.Year - ExperienciaActual.FechaInicio.Value.Year) * 12 + 
+                                                (fechaFin.Month - ExperienciaActual.FechaInicio.Value.Month) : 0;
+                                            var años = meses / 12;
+                                            var mesesRestantes = meses % 12;
+                                        }
+                                        @if (años > 0 && mesesRestantes > 0)
+                                        {
+                                            <text>@años año@(años > 1 ? "s" : "") y @mesesRestantes mes@(mesesRestantes > 1 ? "es" : "")</text>
+                                        }
+                                        else if (años > 0)
+                                        {
+                                            <text>@años año@(años > 1 ? "s" : "")</text>
+                                        }
+                                        else
+                                        {
+                                            <text>@mesesRestantes mes@(mesesRestantes > 1 ? "es" : "")</text>
+                                        }
+                                        @if (EsTrabajoActual)
+                                        {
+                                            <span class="badge bg-success ms-2">Trabajo Actual</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Descripción -->
+                            <div class="col-12 mb-3">
+                                <h6 class="text-muted mb-3">
+                                    <i class="fas fa-file-text"></i> Descripción del Trabajo
+                                </h6>
+                                
+                                <label class="form-label">Descripción de Responsabilidades</label>
+                                <InputTextArea @bind-Value="ExperienciaActual.Descripcion" class="form-control" 
+                                               rows="4" placeholder="Describe las principales responsabilidades, logros y actividades realizadas..."></InputTextArea>
+                                <div class="form-text">Opcional: Describe tus responsabilidades principales, logros importantes y actividades relevantes.</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" disabled="@Guardando">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-success" disabled="@Guardando">
+                        @if (Guardando)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                        }
+                        else
+                        {
+                            <i class="fas fa-save"></i>
+                        }
+                        @(EsEdicion ? "Actualizar" : "Guardar") Experiencia
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback OnExperienciaGuardada { get; set; }
+    [Parameter] public int IdDocente { get; set; }
+    
+    private ExperienciaDTO ExperienciaActual = new();
+    private bool EsEdicion = false;
+    private bool Guardando = false;
+    private bool EsTrabajoActual = false;
+
+    public async Task AbrirModal(ExperienciaDTO? experiencia = null, int idDocente = 0)
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", $"Abriendo modal experiencia - Experiencia: {experiencia?.IdExperiencia}, IdDocente: {idDocente}");
+            
+            if (experiencia != null)
+            {
+                EsEdicion = true;
+                ExperienciaActual = new ExperienciaDTO 
+                {
+                    IdExperiencia = experiencia.IdExperiencia,
+                    IdDocente = experiencia.IdDocente,
+                    Puesto = experiencia.Puesto,
+                    Institucion = experiencia.Institucion,
+                    Descripcion = experiencia.Descripcion,
+                    FechaInicio = experiencia.FechaInicio,
+                    FechaFin = experiencia.FechaFin
+                };
+                EsTrabajoActual = !ExperienciaActual.FechaFin.HasValue;
+                await JSRuntime.InvokeVoidAsync("console.log", "Modo edición activado");
+            }
+            else
+            {
+                if (idDocente <= 0)
+                {
+                    idDocente = IdDocente;
+                }
+                
+                if (idDocente <= 0)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "Error: No se pudo identificar el docente para crear la experiencia");
+                    return;
+                }
+                
+                EsEdicion = false;
+                ExperienciaActual = new ExperienciaDTO { IdDocente = idDocente };
+                EsTrabajoActual = false;
+                await JSRuntime.InvokeVoidAsync("console.log", "Modo creación activado");
+            }
+            
+            // Limpiar estado de guardado
+            Guardando = false;
+            
+            StateHasChanged();
+
+            // Abrir modal con implementación robusta
+            await JSRuntime.InvokeVoidAsync("console.log", "Intentando abrir modal Bootstrap");
+            
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                (function() {
+                    try {
+                        const modalElement = document.getElementById('modalExperiencia');
+                        if (modalElement) {
+                            if (window.bootstrap && window.bootstrap.Modal) {
+                                const modal = new bootstrap.Modal(modalElement);
+                                modal.show();
+                                console.log('Modal experiencia abierto con Bootstrap 5');
+                            } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                                $(modalElement).modal('show');
+                                console.log('Modal experiencia abierto con jQuery Bootstrap');
+                            } else {
+                                modalElement.style.display = 'block';
+                                modalElement.classList.add('show');
+                                modalElement.classList.add('d-block');
+                                console.log('Modal experiencia abierto con CSS directo');
+                            }
+                        } else {
+                            console.error('No se encontró el elemento modal de experiencia');
+                        }
+                    } catch (error) {
+                        console.error('Error al abrir modal de experiencia:', error);
+                    }
+                })();
+            ");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", $"Error al abrir modal: {ex.Message}");
+            await JSRuntime.InvokeVoidAsync("alert", $"Error al abrir el formulario de experiencia: {ex.Message}");
+        }
+    }
+
+    private async Task GuardarExperiencia()
+    {
+        try
+        {
+            Guardando = true;
+            StateHasChanged();
+
+            // Si es trabajo actual, limpiar fecha de fin
+            if (EsTrabajoActual)
+            {
+                ExperienciaActual.FechaFin = null;
+            }
+
+            // Mapear DTO a entidad
+            var experiencia = new E_Experiencia
+            {
+                IdExperiencia = ExperienciaActual.IdExperiencia,
+                IdDocente = ExperienciaActual.IdDocente,
+                Puesto = ExperienciaActual.Puesto,
+                Institucion = ExperienciaActual.Institucion,
+                Descripcion = ExperienciaActual.Descripcion,
+                FechaInicio = ExperienciaActual.FechaInicio,
+                FechaFin = ExperienciaActual.FechaFin
+            };
+            
+            if (EsEdicion)
+            {
+                await ExperienciaServicios.UpdateAsync(experiencia);
+            }
+            else
+            {
+                await ExperienciaServicios.AddAsync(experiencia);
+            }
+
+            await CerrarModal();
+            await JSRuntime.InvokeVoidAsync("alert", $"Experiencia {(EsEdicion ? "actualizada" : "agregada")} correctamente");
+            await OnExperienciaGuardada.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Error al guardar: {ex.Message}");
+        }
+        finally
+        {
+            Guardando = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task CerrarModal()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                (function() {
+                    try {
+                        const modalElement = document.getElementById('modalExperiencia');
+                        if (modalElement) {
+                            if (window.bootstrap && window.bootstrap.Modal) {
+                                const modal = bootstrap.Modal.getInstance(modalElement);
+                                if (modal) {
+                                    modal.hide();
+                                }
+                            } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                                $(modalElement).modal('hide');
+                            } else {
+                                modalElement.style.display = 'none';
+                                modalElement.classList.remove('show');
+                                modalElement.classList.remove('d-block');
+                                const backdrop = document.querySelector('.modal-backdrop');
+                                if (backdrop) {
+                                    backdrop.remove();
+                                }
+                            }
+                            console.log('Modal experiencia cerrado correctamente');
+                        }
+                    } catch (error) {
+                        console.error('Error al cerrar modal experiencia:', error);
+                    }
+                })();
+            ");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", $"Error al cerrar modal: {ex.Message}");
+        }
+    }
+
+    private void OnTrabajoActualChanged(ChangeEventArgs e)
+    {
+        EsTrabajoActual = (bool)(e.Value ?? false);
+        if (EsTrabajoActual)
+        {
+            ExperienciaActual.FechaFin = null;
+        }
+        StateHasChanged();
+    }
+} 

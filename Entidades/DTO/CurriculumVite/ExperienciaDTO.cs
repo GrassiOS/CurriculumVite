@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entidades.DTO.CurriculumVite
 {
@@ -6,10 +7,18 @@ namespace Entidades.DTO.CurriculumVite
     {
         public int IdExperiencia { get; set; }
         public int IdDocente { get; set; }
+        
+        [Required(ErrorMessage = "El puesto es obligatorio")]
         public string? Puesto { get; set; }
+        
+        [Required(ErrorMessage = "La institución es obligatoria")]
         public string? Institucion { get; set; }
+        
         public string? Descripcion { get; set; }
+        
+        [Required(ErrorMessage = "La fecha de inicio es obligatoria")]
         public DateTime? FechaInicio { get; set; }
+        
         public DateTime? FechaFin { get; set; }
         
         // Propiedades calculadas

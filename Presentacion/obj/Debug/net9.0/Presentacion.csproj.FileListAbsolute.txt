@@ -1558,6 +1558,7 @@ C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Presentacion/obj/Debug/net9.0/
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/scopedcss/Components/Layout/NavMenu.razor.rz.scp.css
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/scopedcss/bundle/Presentacion.styles.css
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/scopedcss/projectbundle/Presentacion.bundle.scp.css
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/yz2nvw295y-sx6qmtgyee.gz
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/pkb5hk3pxx-56sjvmltm9.gz
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/keezly5y3a-bqjiyaj88i.gz
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/kmtsseqb5t-c2jlpeoesf.gz
@@ -1606,8 +1607,8 @@ C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Presentacion/obj/Debug/net9.0/
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/wmvb61ggus-ksv8ay6qym.gz
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/gda8tqktcw-vy6tk78vs7.gz
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/2bple562i8-gdrnohxws3.gz
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/l9p1ja1sbb-dtcp1twy1o.gz
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/bwocuuolbw-dtcp1twy1o.gz
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/l9p1ja1sbb-jekosyzrsk.gz
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/bwocuuolbw-jekosyzrsk.gz
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/staticwebassets.build.json
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/staticwebassets.build.json.cache
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/staticwebassets.development.json
@@ -1618,4 +1619,3 @@ C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Presentacion/obj/Debug/net9.0/
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.pdb
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.genruntimeconfig.cache
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/ref/Presentacion.dll
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/compressed/yz2nvw295y-sx6qmtgyee.gz

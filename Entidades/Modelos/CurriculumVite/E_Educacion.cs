@@ -12,7 +12,6 @@ namespace Entidades.Modelos.CurriculumVite
         public int? AnioInicio { get; set; }
         public int? AnioFin { get; set; }
         
-        // Navigation property
-        public virtual E_Docente? Docente { get; set; }
+        // Sin navigation properties como en E_Publicacion
     }
 }

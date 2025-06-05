@@ -10,20 +10,23 @@ namespace Entidades.Configuraciones.CurriculumVite
         {
             builder.ToTable("Educacion", "CV");
             builder.HasKey(e => e.IdEducacion);
-            builder.Property(e => e.IdDocente).IsRequired();
-            builder.Property(e => e.Nivel).HasMaxLength(50).IsRequired();
-            builder.Property(e => e.Titulo).HasMaxLength(200);
-            builder.Property(e => e.Institucion).HasMaxLength(200);
-            builder.Property(e => e.Especialidad).HasMaxLength(200);
-            builder.Property(e => e.Pais).HasMaxLength(100);
-            builder.Property(e => e.AnioInicio);
-            builder.Property(e => e.AnioFin);
             
-            // Configurar la relación con E_Docente
+            // Mapeo de columnas según el schema de la BD
+            builder.Property(e => e.IdEducacion).HasColumnName("IdEducacion");
+            builder.Property(e => e.IdDocente).HasColumnName("IdDocente").IsRequired();
+            builder.Property(e => e.Nivel).HasColumnName("nivel").HasMaxLength(100).IsRequired();
+            builder.Property(e => e.Titulo).HasColumnName("titulo").HasMaxLength(400);
+            builder.Property(e => e.Institucion).HasColumnName("institucion").HasMaxLength(400);
+            builder.Property(e => e.Especialidad).HasColumnName("especialidad").HasMaxLength(400);
+            builder.Property(e => e.Pais).HasColumnName("pais").HasMaxLength(200);
+            builder.Property(e => e.AnioInicio).HasColumnName("anioInicio");
+            builder.Property(e => e.AnioFin).HasColumnName("anioFin");
+            
+            // Configurar la relación con E_Docente explícitamente (igual que Publicacion)
             builder.HasOne<E_Docente>()
-                .WithMany(d => d.Educaciones)
-                .HasForeignKey(edu => edu.IdDocente)
-                .OnDelete(DeleteBehavior.Cascade);
+                   .WithMany(d => d.Educaciones)
+                   .HasForeignKey(e => e.IdDocente)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

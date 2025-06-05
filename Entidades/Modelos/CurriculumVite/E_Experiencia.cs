@@ -12,7 +12,6 @@ namespace Entidades.Modelos.CurriculumVite
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaFin { get; set; }
         
-        // Navigation property
-        public virtual E_Docente? Docente { get; set; }
+        // Sin navigation properties como en E_Educacion
     }
 }

@@ -121,7 +121,7 @@ builder.Services.AddServerSideBlazor(options => {
 });
 
 // En ConfigureServices - Incluir todos los perfiles de AutoMapper
-builder.Services.AddAutoMapper(typeof(CarreraProfile), typeof(DocenteProfile), typeof(ContactoDocenteProfile), typeof(TipoContactoProfile));
+builder.Services.AddAutoMapper(typeof(CarreraProfile), typeof(DocenteProfile), typeof(ContactoDocenteProfile), typeof(TipoContactoProfile), typeof(EducacionProfile));
 
 //Servicio para Quill Editor
 builder.Services.AddHttpClient(); // Agrega este registro

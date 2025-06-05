@@ -288,7 +288,7 @@
                                     <small class="text-muted">Paso 2 de 4 - Publicaciones</small>
                                 </div>
                                 <button class="btn" style="background-color: #4BB463; color: white;" @onclick="ContinuarAProyectos">
-                                    Continuar a Proyectos <i class="fas fa-arrow-right"></i>
+                                    Continuar a Educación <i class="fas fa-arrow-right"></i>
                                 </button>
                             </div>
                         </div>
@@ -548,7 +548,6 @@
 
     private void ContinuarAProyectos()
     {
-        // TODO: Implementar cuando esté listo el gestor de proyectos
-        JSRuntime.InvokeVoidAsync("alert", "🇲🇽 El gestor de proyectos estará disponible próximamente");
+        NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Educacion");
     }
 } 
