@@ -566,7 +566,7 @@
 
     private void VerDocumentosEducacion(EducacionDTO educacion)
     {
-        NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Documentos?tipo=educacion&id={educacion.IdEducacion}");
+        NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Educacion/{educacion.IdEducacion}/Documentos");
     }
 
     private async Task ExportarEducaciones()

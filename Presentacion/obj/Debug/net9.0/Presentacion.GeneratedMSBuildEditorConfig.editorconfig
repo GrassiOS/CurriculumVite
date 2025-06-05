@@ -28,6 +28,18 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
+[/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Areas/CV/Docentes/DocumentosEducacion.razor]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ1YvRG9jZW50ZXMvRG9jdW1lbnRvc0VkdWNhY2lvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Areas/CV/Docentes/DocumentosExperiencia.razor]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ1YvRG9jZW50ZXMvRG9jdW1lbnRvc0V4cGVyaWVuY2lhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Areas/CV/Docentes/DocumentosProyecto.razor]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ1YvRG9jZW50ZXMvRG9jdW1lbnRvc1Byb3llY3RvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/Areas/CV/Docentes/DocumentosPublicacion.razor]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQ1YvRG9jZW50ZXMvRG9jdW1lbnRvc1B1YmxpY2FjaW9uLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 

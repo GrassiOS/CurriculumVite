@@ -280,7 +280,9 @@
 <!-- Modal de Proyecto -->
 <ModalProyecto @ref="modalProyecto" 
                OnProyectoGuardado="OnProyectoGuardado" 
-               IdDocente="IdDocente" />
+               IdDocente="IdDocente"
+               EmpleadoNombre="@nombreCompletoDocente"
+               NumeroEmpleado="@numeroEmpleado" />
 
 <!-- Modal de Confirmación -->
 @if (MostrarModalConfirmacion)
@@ -328,6 +330,7 @@
     // Modal de confirmación
     private bool MostrarModalConfirmacion = false;
     private ProyectoDTO? ProyectoAEliminar;
+    private string numeroEmpleado = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -360,6 +363,7 @@
                 var docente = resultadoDocente.Entidad;
                 NombreDocente = $"{docente.NombreDocente} {docente.PaternoDocente} {docente.MaternoDocente}".Trim();
                 nombreCompletoDocente = $"{docente.NombreDocente} {docente.PaternoDocente} {docente.MaternoDocente}".Trim();
+                numeroEmpleado = docente.NumeroEmpleado ?? "";
             }
 
             // Cargar proyectos
@@ -518,7 +522,7 @@
 
     private void VerDocumentosProyecto(ProyectoDTO proyecto)
     {
-        NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Proyectos/{proyecto.IdProyecto}/Documentos");
+        NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Proyecto/{proyecto.IdProyecto}/Documentos");
     }
 }
 

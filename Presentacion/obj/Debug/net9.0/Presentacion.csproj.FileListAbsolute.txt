@@ -1393,6 +1393,13 @@ C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Presentacion/obj/Debug/net9.0/
 C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Presentacion/obj/Debug/net9.0/Presenta.BC77CD05.Up2Date
 C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Presentacion/obj/Debug/net9.0/Presentacion.genruntimeconfig.cache
 C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Presentacion/obj/Debug/net9.0/ref/Presentacion.dll
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.csproj.AssemblyReference.cache
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.GeneratedMSBuildEditorConfig.editorconfig
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.AssemblyInfoInputs.cache
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.AssemblyInfo.cs
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.csproj.CoreCompileInputs.cache
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.MvcApplicationPartsAssemblyInfo.cache
+/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.sourcelink.json
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/bin/Debug/net9.0/appsettings.Development.json
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/bin/Debug/net9.0/appsettings.json
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/bin/Debug/net9.0/Presentacion.staticwebassets.runtime.json
@@ -1547,13 +1554,6 @@ C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Presentacion/obj/Debug/net9.0/
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/bin/Debug/net9.0/Entidades.pdb
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/bin/Debug/net9.0/Servicios.pdb
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/bin/Debug/net9.0/Negocios.pdb
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.csproj.AssemblyReference.cache
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.GeneratedMSBuildEditorConfig.editorconfig
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.AssemblyInfoInputs.cache
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.AssemblyInfo.cs
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.csproj.CoreCompileInputs.cache
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.MvcApplicationPartsAssemblyInfo.cache
-/Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/Presentacion.sourcelink.json
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/scopedcss/Components/Layout/MainLayout.razor.rz.scp.css
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/scopedcss/Components/Layout/NavMenu.razor.rz.scp.css
 /Users/martinortiz/Desktop/CV/CurriculumVite/Presentacion/obj/Debug/net9.0/scopedcss/bundle/Presentacion.styles.css
