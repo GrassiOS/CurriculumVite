@@ -303,7 +303,7 @@
                                     <div class="text-center">
                                         <small class="text-muted">Paso 2 de 4 - Publicaciones</small>
                                     </div>
-                                    <button class="btn" style="background-color: #4BB463; color: white;" @onclick="ContinuarAProyectos">
+                                    <button class="btn" style="background-color: #4BB463; color: white;" @onclick="ContinuarAEducacion">
                                         Continuar a Educación <i class="fas fa-arrow-right"></i>
                                     </button>
                                 </div>
@@ -570,7 +570,7 @@
         NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Contactos");
     }
 
-    private void ContinuarAProyectos()
+    private void ContinuarAEducacion()
     {
         NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Educacion");
     }

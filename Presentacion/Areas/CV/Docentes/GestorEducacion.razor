@@ -325,8 +325,10 @@
 <!-- Modal para nueva/editar educación -->
 <ModalEducacion @ref="modalEducacion"
                EducacionActual="@EducacionSeleccionada"
-               EsModoEdicion="@EsModoEdicion"
-               OnEducacionGuardada="@OnEducacionGuardada" />
+               IsEditing="@EsModoEdicion"
+               OnEducacionGuardada="@OnEducacionGuardada"
+               EmpleadoNombre="@nombreCompletoDocente"
+               NumeroEmpleado="@numeroEmpleado" />
 
 @code {
     [Parameter] public int IdDocente { get; set; }
@@ -351,6 +353,7 @@
 
     // Información del docente
     private string nombreCompletoDocente = string.Empty;
+    private string numeroEmpleado = string.Empty;
 
     // Detección de parámetro fromProfile
     private bool FromProfile = false;
@@ -358,7 +361,20 @@
     protected override async Task OnInitializedAsync()
     {
         await DetectarFromProfile();
-        await CargarDatosIniciales();
+        
+        try
+        {
+            await CargarDatosIniciales();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error en OnInitializedAsync: {ex.Message}");
+        }
+        finally
+        {
+            CargandoEducaciones = false;
+            StateHasChanged();
+        }
     }
 
     private async Task DetectarFromProfile()
@@ -366,14 +382,18 @@
         try
         {
             var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
-            var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
-            FromProfile = query.ContainsKey("fromProfile") && query["fromProfile"] == "true";
+            if (uri.Query.Contains("fromProfile=true"))
+            {
+                FromProfile = true;
+            }
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error al detectar fromProfile: {ex.Message}");
             FromProfile = false;
         }
+        
+        await Task.CompletedTask; // Para hacer el método async
     }
 
     private async Task CargarDatosIniciales()
@@ -386,6 +406,7 @@
             {
                 var docente = resultadoDocente.Entidad;
                 nombreCompletoDocente = $"{docente.NombreDocente} {docente.PaternoDocente} {docente.MaternoDocente}".Trim();
+                numeroEmpleado = docente.NumeroEmpleado ?? "";
             }
 
             // Cargar educaciones
@@ -393,12 +414,15 @@
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.error", $"Error al cargar datos iniciales: {ex.Message}");
-        }
-        finally
-        {
-            CargandoEducaciones = false;
-            StateHasChanged();
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("console.error", $"Error al cargar datos iniciales: {ex.Message}");
+            }
+            catch
+            {
+                // Ignorar errores de JSRuntime si el circuito está desconectado
+                Console.WriteLine($"Error al cargar datos iniciales: {ex.Message}");
+            }
         }
     }
 
@@ -438,7 +462,15 @@
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.error", $"Error al cargar educaciones: {ex.Message}");
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("console.error", $"Error al cargar educaciones: {ex.Message}");
+            }
+            catch
+            {
+                // Ignorar errores de JSRuntime si el circuito está desconectado
+                Console.WriteLine($"Error al cargar educaciones: {ex.Message}");
+            }
         }
     }
 
@@ -452,7 +484,15 @@
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.error", $"Error al cargar documentos: {ex.Message}");
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("console.error", $"Error al cargar documentos: {ex.Message}");
+            }
+            catch
+            {
+                // Ignorar errores de JSRuntime si el circuito está desconectado
+                Console.WriteLine($"Error al cargar documentos: {ex.Message}");
+            }
         }
     }
 
@@ -484,18 +524,18 @@
         FiltrarEducaciones();
     }
 
-    private void AbrirModalNuevaEducacion()
+    private async Task AbrirModalNuevaEducacion()
     {
         EducacionSeleccionada = new EducacionDTO { IdDocente = IdDocente };
         EsModoEdicion = false;
-        modalEducacion?.AbrirModal();
+        await modalEducacion.AbrirModal(null, IdDocente);
     }
 
-    private void EditarEducacion(EducacionDTO educacion)
+    private async Task EditarEducacion(EducacionDTO educacion)
     {
         EducacionSeleccionada = educacion;
         EsModoEdicion = true;
-        modalEducacion?.AbrirModal();
+        await modalEducacion.AbrirModal(educacion);
     }
 
     private async Task OnEducacionGuardada()
