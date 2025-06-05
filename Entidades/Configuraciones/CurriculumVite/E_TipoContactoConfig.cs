@@ -8,9 +8,11 @@ namespace Entidades.Configuraciones.CurriculumVite
     {
         public void Configure(EntityTypeBuilder<E_TipoContacto> builder)
         {
-            builder.ToTable("TipoContacto");
+            builder.ToTable("TipoContacto", "CV");
             builder.HasKey(e => e.TipoContactoId);
-            builder.Property(e => e.Nombre).HasMaxLength(100).IsRequired();
+            
+            // Propiedades requeridas
+            builder.Property(e => e.Nombre).IsRequired().HasMaxLength(200);
         }
     }
 }

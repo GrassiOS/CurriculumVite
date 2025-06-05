@@ -14,7 +14,7 @@ namespace Datos.Repositorios.PlanesDeEstudio
       using var transaction = await _contextoBD.Database.BeginTransactionAsync();
       try
       {
-        await _contextoBD.Carreras.AddAsync(carrera);
+        await _contextoBD.CarrerasPlanEstudio.AddAsync(carrera);
         await _contextoBD.SaveChangesAsync();
         await transaction.CommitAsync();
 
@@ -52,7 +52,7 @@ namespace Datos.Repositorios.PlanesDeEstudio
       using var transaction = await _contextoBD.Database.BeginTransactionAsync();
       try
       {
-        var carreraBD = await _contextoBD.Carreras.FindAsync(idCarrera);
+        var carreraBD = await _contextoBD.CarrerasPlanEstudio.FindAsync(idCarrera);
 
         if (carreraBD == null)
         {
@@ -96,7 +96,7 @@ namespace Datos.Repositorios.PlanesDeEstudio
       using var transaction = await _contextoBD.Database.BeginTransactionAsync();
       try
       {
-        var carreraEnBD = await _contextoBD.Carreras.FirstOrDefaultAsync(c => c.IdCarrera == carrera.IdCarrera);
+        var carreraEnBD = await _contextoBD.CarrerasPlanEstudio.FirstOrDefaultAsync(c => c.IdCarrera == carrera.IdCarrera);
 
         if (carreraEnBD == null)
         {
@@ -144,7 +144,7 @@ namespace Datos.Repositorios.PlanesDeEstudio
     {
       try
       {
-        var carrera = await _contextoBD.Carreras
+        var carrera = await _contextoBD.CarrerasPlanEstudio
             .AsNoTracking()
             .FirstOrDefaultAsync(c => c.IdCarrera == idCarrera);
 
@@ -174,7 +174,7 @@ namespace Datos.Repositorios.PlanesDeEstudio
     }
     public async Task<IEnumerable<E_Carrera>> ObtenerTodasLasCarreras()
     {
-      return await _contextoBD.Carreras
+      return await _contextoBD.CarrerasPlanEstudio
           .AsNoTracking()
           .OrderBy(c => c.ClaveCarrera)
           .ToListAsync();
@@ -183,7 +183,7 @@ namespace Datos.Repositorios.PlanesDeEstudio
     {
       criterio = criterio?.ToLower() ?? string.Empty;
 
-      return await _contextoBD.Carreras
+      return await _contextoBD.CarrerasPlanEstudio
           .Where(c => c.ClaveCarrera.ToLower().Contains(criterio) ||
                        c.NombreCarrera.ToLower().Contains(criterio))
           .OrderBy(c => c.ClaveCarrera)
@@ -193,7 +193,7 @@ namespace Datos.Repositorios.PlanesDeEstudio
 
     public async Task<bool> ExisteClaveCarrera(string claveCarrera, int? idExcluido = null)
     {
-      var carrera = _contextoBD.Carreras.Where(c => c.ClaveCarrera == claveCarrera);
+      var carrera = _contextoBD.CarrerasPlanEstudio.Where(c => c.ClaveCarrera == claveCarrera);
 
       if (idExcluido.HasValue)
       {
@@ -202,48 +202,35 @@ namespace Datos.Repositorios.PlanesDeEstudio
 
       return await carrera.AnyAsync();
     }
+
     public async Task<bool> ExisteIdCarrera(int idCarrera)
     {
-      if (idCarrera < 0)
-      {
-        return false;
-      }
-
-      return await _contextoBD.Carreras.AsNoTracking().AnyAsync(c => c.IdCarrera == idCarrera);
+      return await _contextoBD.CarrerasPlanEstudio
+          .AnyAsync(c => c.IdCarrera == idCarrera);
     }
 
     public async Task<bool> ExisteNombreCarrera(string nombreCarrera, int? idExcluido = null)
     {
-      if (string.IsNullOrWhiteSpace(nombreCarrera))
-      {
-        return false;
-      }
-
-      var query = _contextoBD.Carreras.AsNoTracking().Where(c => c.NombreCarrera.ToLower() == nombreCarrera.Trim().ToLower());
+      var carrera = _contextoBD.CarrerasPlanEstudio.Where(c => c.NombreCarrera == nombreCarrera);
 
       if (idExcluido.HasValue)
       {
-        query = query.Where(c => c.IdCarrera != idExcluido.Value);
+        carrera = carrera.Where(c => c.IdCarrera != idExcluido.Value);
       }
 
-      return await query.AnyAsync();
+      return await carrera.AnyAsync();
     }
 
     public async Task<bool> ExisteAliasCarrera(string aliasCarrera, int? idExcluido = null)
     {
+      var carrera = _contextoBD.CarrerasPlanEstudio.Where(c => c.AliasCarrera == aliasCarrera);
 
-      if (string.IsNullOrWhiteSpace(aliasCarrera))
-      {
-        return false;
-      }
-
-      var query = _contextoBD.Carreras.AsNoTracking().Where(c => c.AliasCarrera == aliasCarrera);
       if (idExcluido.HasValue)
       {
-        query = query.Where(c => c.IdCarrera != idExcluido.Value);
+        carrera = carrera.Where(c => c.IdCarrera != idExcluido.Value);
       }
 
-      return await query.AnyAsync();
+      return await carrera.AnyAsync();
     }
   }
 }

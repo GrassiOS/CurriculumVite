@@ -11,5 +11,9 @@ namespace Entidades.Modelos.CurriculumVite
         public string? Pais { get; set; }
         public int? AnioInicio { get; set; }
         public int? AnioFin { get; set; }
+        
+        // Navigation property
+        public virtual E_Docente? Docente { get; set; }
+        public virtual ICollection<E_Documento>? Documentos { get; set; }
     }
 }

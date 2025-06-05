@@ -1,0 +1,623 @@
+@page "/CV/Docentes/Agregar"
+@page "/CV/Docentes/Editar/{idDocente:int}"
+@using Entidades.Modelos.CurriculumVite
+@using Entidades.DTO.CurriculumVite
+@using Entidades.Modelos.PlanesDeEstudio.Carreras
+@using Servicios.IRepositorios.CurriculumVite
+@using Servicios.Repositorios.PlanesDeEstudio
+@inject ISDocenteRepositorio DocenteServicios
+@inject CarreraServicios CarreraServicios
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+<PageTitle>🇲🇽 @(EsEdicion ? "Editar" : "Agregar") Docente - UABC</PageTitle>
+
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item">
+                        <a href="/CV/Docentes" class="text-decoration-none" style="color: #2D6B3C;">
+                            <i class="fas fa-chalkboard-teacher me-1"></i>Docentes
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        @(EsEdicion ? "Editar" : "Agregar") Docente
+                    </li>
+                </ol>
+            </nav>
+            <h2 class="h3 mb-0" style="color: #2D6B3C;">
+                <i class="fas fa-@(EsEdicion ? "edit" : "plus") me-2"></i>
+                🇲🇽 @(EsEdicion ? "Editar" : "Agregar") Docente
+            </h2>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    @if (cargando)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2 text-muted">@(EsEdicion ? "Cargando información del docente..." : "Inicializando formulario...")</p>
+        </div>
+    }
+    else
+    {
+        <EditForm Model="docente" OnValidSubmit="GuardarDocente">
+            <DataAnnotationsValidator />
+
+            <!-- Segment 1: Datos Personales -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header py-3" style="background-color: #2D6B3C; color: white;">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user me-2"></i>Datos Personales
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- Nombres -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Nombre(s) <span class="text-danger">*</span></label>
+                            <InputText @bind-Value="docente.NombreDocente" class="form-control" placeholder="Ej: Juan Carlos" />
+                            <ValidationMessage For="@(() => docente.NombreDocente)" class="text-danger" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Apellido Paterno <span class="text-danger">*</span></label>
+                            <InputText @bind-Value="docente.PaternoDocente" class="form-control" placeholder="Ej: González" />
+                            <ValidationMessage For="@(() => docente.PaternoDocente)" class="text-danger" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Apellido Materno</label>
+                            <InputText @bind-Value="docente.MaternoDocente" class="form-control" placeholder="Ej: López" />
+                            <ValidationMessage For="@(() => docente.MaternoDocente)" class="text-danger" />
+                        </div>
+
+                        <!-- Fecha de Nacimiento y Sexo -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Fecha de Nacimiento</label>
+                            <InputDate @bind-Value="docente.FechaNacimiento" class="form-control" />
+                            <ValidationMessage For="@(() => docente.FechaNacimiento)" class="text-danger" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Sexo <span class="text-danger">*</span></label>
+                            <InputSelect @bind-Value="docente.IdSexo" class="form-select">
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Masculino</option>
+                                <option value="2">Femenino</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => docente.IdSexo)" class="text-danger" />
+                        </div>
+
+                        <!-- RFC y CURP -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">RFC</label>
+                            <InputText @bind-Value="docente.RFC" class="form-control" placeholder="Ej: GOLO800101ABC" maxlength="13" />
+                            <ValidationMessage For="@(() => docente.RFC)" class="text-danger" />
+                            <small class="form-text text-muted">10-13 caracteres, formato mexicano</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">CURP</label>
+                            <InputText @bind-Value="docente.CURP" class="form-control" placeholder="Ej: GOLO800101HBCNPR03" maxlength="18" />
+                            <ValidationMessage For="@(() => docente.CURP)" class="text-danger" />
+                            <small class="form-text text-muted">18 caracteres, formato mexicano</small>
+                        </div>
+
+                        <!-- Teléfonos -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Teléfono Casa</label>
+                            <InputText @bind-Value="docente.TelefonoCasa" class="form-control" placeholder="Ej: 6641234567" />
+                            <ValidationMessage For="@(() => docente.TelefonoCasa)" class="text-danger" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Teléfono Celular</label>
+                            <InputText @bind-Value="docente.TelefonoCelular" class="form-control" placeholder="Ej: 6649876543" />
+                            <ValidationMessage For="@(() => docente.TelefonoCelular)" class="text-danger" />
+                        </div>
+
+                        <!-- Dirección -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Dirección</label>
+                            <InputTextArea @bind-Value="docente.Direccion" class="form-control" rows="2" 
+                                           placeholder="Ej: Calle Principal #123, Colonia Centro, Tijuana, BC" />
+                            <ValidationMessage For="@(() => docente.Direccion)" class="text-danger" />
+                        </div>
+
+                        <!-- Estado Civil -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Estado Civil <span class="text-danger">*</span></label>
+                            <InputSelect @bind-Value="docente.IdEstadoCivil" class="form-select">
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Soltero(a)</option>
+                                <option value="2">Casado(a)</option>
+                                <option value="3">Divorciado(a)</option>
+                                <option value="4">Viudo(a)</option>
+                                <option value="5">Unión Libre</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => docente.IdEstadoCivil)" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segment 2: Datos Institucionales -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header py-3" style="background-color: #4BB463; color: white;">
+                    <h5 class="mb-0">
+                        <i class="fas fa-university me-2"></i>Datos Institucionales
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- Número de Empleado -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Número de Empleado <span class="text-danger">*</span></label>
+                            <InputText @bind-Value="docente.NumeroEmpleado" class="form-control" placeholder="Ej: EMP12345" />
+                            <ValidationMessage For="@(() => docente.NumeroEmpleado)" class="text-danger" />
+                            <small class="form-text text-muted">3-20 caracteres alfanuméricos</small>
+                        </div>
+
+                        <!-- Fecha de Ingreso -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Fecha de Ingreso</label>
+                            <InputDate @bind-Value="docente.FechaIngreso" class="form-control" />
+                            <ValidationMessage For="@(() => docente.FechaIngreso)" class="text-danger" />
+                        </div>
+
+                        <!-- Estado del Docente -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Estado</label>
+                            <div class="form-check form-switch mt-3">
+                                <InputCheckbox @bind-Value="estaActivo" class="form-check-input" id="switchEstado" />
+                                <label class="form-check-label" for="switchEstado">
+                                    <span class="badge rounded-pill" style="background-color: @(estaActivo ? "#4BB463" : "#6c757d"); color: white;">
+                                        <i class="fas fa-@(estaActivo ? "check-circle" : "pause-circle") me-1"></i>
+                                        @(estaActivo ? "Activo" : "Inactivo")
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Categoría -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Categoría <span class="text-danger">*</span></label>
+                            <InputSelect @bind-Value="docente.IdCategoria" class="form-select">
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Tiempo Completo</option>
+                                <option value="2">Medio Tiempo</option>
+                                <option value="3">Asignatura</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => docente.IdCategoria)" class="text-danger" />
+                        </div>
+
+                        <!-- Nombramiento -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nombramiento <span class="text-danger">*</span></label>
+                            <InputSelect @bind-Value="docente.IdNombramiento" class="form-select">
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Base</option>
+                                <option value="2">Interino</option>
+                                <option value="3">Honorarios</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => docente.IdNombramiento)" class="text-danger" />
+                        </div>
+
+                        <!-- Carrera -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Carrera <span class="text-danger">*</span></label>
+                            <InputSelect @bind-Value="docente.IdCarrera" class="form-select">
+                                <option value="">Seleccionar...</option>
+                                @if (carreras != null)
+                                {
+                                    @foreach (var carrera in carreras)
+                                    {
+                                        <option value="@carrera.IdCarrera">@carrera.NombreCarrera</option>
+                                    }
+                                }
+                            </InputSelect>
+                            <ValidationMessage For="@(() => docente.IdCarrera)" class="text-danger" />
+                        </div>
+
+                        <!-- Grado de Estudios -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Escolaridad <span class="text-danger">*</span></label>
+                            <InputSelect @bind-Value="docente.IdEscolaridad" class="form-select">
+                                <option value="">Seleccionar...</option>
+                                <option value="1">Licenciatura</option>
+                                <option value="2">Maestría</option>
+                                <option value="3">Doctorado</option>
+                                <option value="4">Posdoctorado</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => docente.IdEscolaridad)" class="text-danger" />
+                        </div>
+
+                        <!-- Universidad de Estudios -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Universidad de Licenciatura</label>
+                            <InputText @bind-Value="docente.UniversidadLicenciatura" class="form-control" placeholder="Ej: UABC" />
+                            <ValidationMessage For="@(() => docente.UniversidadLicenciatura)" class="text-danger" />
+                        </div>
+
+                        <!-- Cédula Profesional -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Cédula Profesional</label>
+                            <InputText @bind-Value="docente.CedulaProfesional" class="form-control" placeholder="Ej: 1234567" />
+                            <ValidationMessage For="@(() => docente.CedulaProfesional)" class="text-danger" />
+                            <small class="form-text text-muted">6-12 dígitos</small>
+                        </div>
+
+                        <!-- Email Institucional -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email Institucional</label>
+                            <InputText @bind-Value="docente.EmailInstitucional" class="form-control" 
+                                       placeholder="Ej: juan.gonzalez@uabc.edu.mx" type="email" />
+                            <ValidationMessage For="@(() => docente.EmailInstitucional)" class="text-danger" />
+                        </div>
+
+                        <!-- Extensión -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Extensión</label>
+                            <InputText @bind-Value="docente.Extension" class="form-control" placeholder="Ej: 1234" maxlength="14" />
+                            <ValidationMessage For="@(() => docente.Extension)" class="text-danger" />
+                        </div>
+
+                        <!-- Nivel SNI -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nivel SNI</label>
+                            <InputSelect @bind-Value="docente.IdNivelSNI" class="form-select">
+                                <option value="">No pertenece</option>
+                                <option value="1">Candidato</option>
+                                <option value="2">Nivel I</option>
+                                <option value="3">Nivel II</option>
+                                <option value="4">Nivel III</option>
+                                <option value="5">Emérito</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => docente.IdNivelSNI)" class="text-danger" />
+                        </div>
+
+                        <!-- PRODEP -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">PRODEP</label>
+                            <div class="form-check form-switch mt-3">
+                                <InputCheckbox @bind-Value="tieneProdep" class="form-check-input" id="switchProdep" />
+                                <label class="form-check-label" for="switchProdep">
+                                    <span class="badge rounded-pill" style="background-color: @(tieneProdep ? "#4BB463" : "#6c757d"); color: white;">
+                                        <i class="fas fa-@(tieneProdep ? "check-circle" : "times-circle") me-1"></i>
+                                        @(tieneProdep ? "Cuenta con PRODEP" : "No cuenta con PRODEP")
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segment 3: Información Académica/Proyectos (Future Features) -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header py-3" style="background-color: #F4BF3A; color: #2D6B3C;">
+                    <h5 class="mb-0">
+                        <i class="fas fa-graduation-cap me-2"></i>Información Académica/Proyectos
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- Placeholder Cards -->
+                        <div class="col-md-4">
+                            <div class="card border-dashed h-100" style="border: 2px dashed #dee2e6; background-color: #f8f9fa;">
+                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                    <i class="fas fa-book fa-2x text-muted mb-3"></i>
+                                    <h6 class="text-muted mb-2">Educaciones</h6>
+                                    <p class="text-muted small mb-3">Historial académico y certificaciones</p>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" disabled>
+                                        <i class="fas fa-plus me-1"></i>Agregar Más Tarde
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card border-dashed h-100" style="border: 2px dashed #dee2e6; background-color: #f8f9fa;">
+                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                    <i class="fas fa-project-diagram fa-2x text-muted mb-3"></i>
+                                    <h6 class="text-muted mb-2">Proyectos</h6>
+                                    <p class="text-muted small mb-3">Proyectos de investigación y desarrollo</p>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" disabled>
+                                        <i class="fas fa-plus me-1"></i>Agregar Más Tarde
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card border-dashed h-100" style="border: 2px dashed #dee2e6; background-color: #f8f9fa;">
+                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                    <i class="fas fa-file-alt fa-2x text-muted mb-3"></i>
+                                    <h6 class="text-muted mb-2">Publicaciones</h6>
+                                    <p class="text-muted small mb-3">Artículos, libros y ponencias</p>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" disabled>
+                                        <i class="fas fa-plus me-1"></i>Agregar Más Tarde
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info mt-4" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Nota:</strong> Las secciones de Educaciones, Proyectos y Publicaciones estarán disponibles 
+                        después de guardar la información básica del docente.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-outline-secondary" @onclick="Cancelar">
+                                <i class="fas fa-times me-2"></i>Cancelar
+                            </button>
+                            
+                            @if (!EsEdicion)
+                            {
+                                <button type="button" class="btn btn-outline-info ms-2" @onclick="AutoCompletarFormulario">
+                                    <i class="fas fa-magic me-2"></i>Auto Completar
+                                </button>
+                            }
+                        </div>
+                        
+                        <div>
+                            @if (EsEdicion)
+                            {
+                                <button type="button" class="btn btn-outline-danger me-2" @onclick="EliminarDocente">
+                                    <i class="fas fa-trash me-2"></i>Eliminar
+                                </button>
+                            }
+                            <button type="submit" class="btn btn-primary" style="background-color: #2D6B3C; border-color: #2D6B3C;" 
+                                    disabled="@guardando">
+                                @if (guardando)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-save me-2"></i>
+                                }
+                                @(EsEdicion ? "Actualizar" : "Guardar") Docente
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [Parameter] public int? IdDocente { get; set; }
+
+    private DocenteDTO docente = new();
+    private bool cargando = true;
+    private bool guardando = false;
+    private bool estaActivo = true;
+    private bool tieneProdep = false;
+    private List<E_Carrera> carreras = new();
+
+    private bool EsEdicion => IdDocente.HasValue && IdDocente.Value > 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Cargar carreras siempre
+            carreras = (await CarreraServicios.ListarCarreras()).ToList();
+            
+            if (EsEdicion)
+            {
+                var resultado = await DocenteServicios.ObtenerDocente<DocenteDTO>(IdDocente.Value);
+                if (resultado.Resultado && resultado.Entidad != null)
+                {
+                    docente = resultado.Entidad;
+                    estaActivo = docente.EstadoDocente == 1;
+                    tieneProdep = docente.IdPRODEP == 1; // 1 = "Sí", 2 = "No"
+                }
+                else
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error: No se pudo cargar la información del docente");
+                    Navigation.NavigateTo("/CV/Docentes");
+                    return;
+                }
+            }
+            else
+            {
+                // Inicializar nuevo docente
+                docente = new DocenteDTO
+                {
+                    EstadoDocente = 1,
+                    IdPRODEP = 2 // Por defecto "No"
+                };
+                tieneProdep = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error al cargar: {ex.Message}");
+        }
+        finally
+        {
+            cargando = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task GuardarDocente()
+    {
+        try
+        {
+            guardando = true;
+            StateHasChanged();
+
+            // Actualizar los campos de estado
+            docente.EstadoDocente = estaActivo ? 1 : 0;
+            docente.IdPRODEP = tieneProdep ? 1 : 2; // 1 = "Sí", 2 = "No"
+
+            if (EsEdicion)
+            {
+                var resultado = await DocenteServicios.ModificarDocente(docente);
+                if (resultado.Resultado)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Docente actualizado exitosamente");
+                    Navigation.NavigateTo("/CV/Docentes");
+                }
+                else
+                {
+                    var mensajes = string.Join(", ", resultado.Mensajes);
+                    await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error al actualizar: {mensajes}");
+                }
+            }
+            else
+            {
+                var resultado = await DocenteServicios.InsertarDocente(docente);
+                if (resultado.Resultado)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Docente agregado exitosamente");
+                    Navigation.NavigateTo("/CV/Docentes");
+                }
+                else
+                {
+                    var mensajes = string.Join(", ", resultado.Mensajes);
+                    await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error al guardar: {mensajes}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error inesperado: {ex.Message}");
+        }
+        finally
+        {
+            guardando = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task EliminarDocente()
+    {
+        if (!EsEdicion) return;
+
+        var confirmado = await JSRuntime.InvokeAsync<bool>("confirm", 
+            $"🇲🇽 ¿Estás seguro de que deseas eliminar al docente {docente.NombreDocente} {docente.PaternoDocente}?");
+
+        if (confirmado)
+        {
+            try
+            {
+                var resultado = await DocenteServicios.BorrarDocente(docente.IdDocente);
+                if (resultado.Resultado)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Docente eliminado exitosamente");
+                    Navigation.NavigateTo("/CV/Docentes");
+                }
+                else
+                {
+                    var mensajes = string.Join(", ", resultado.Mensajes);
+                    await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error al eliminar: {mensajes}");
+                }
+            }
+            catch (Exception ex)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error inesperado: {ex.Message}");
+            }
+        }
+    }
+
+    private void Cancelar()
+    {
+        Navigation.NavigateTo("/CV/Docentes");
+    }
+
+    private void AutoCompletarFormulario()
+    {
+        var random = new Random();
+        
+        // Arrays de nombres mexicanos típicos
+        var nombres = new[] { "Juan Carlos", "María Elena", "José Luis", "Ana Patricia", "Carlos Eduardo", "Laura Isabel", "Miguel Ángel", "Rosa María", "Francisco Javier", "Guadalupe" };
+        var apellidosPaternos = new[] { "González", "Rodríguez", "Martínez", "García", "López", "Hernández", "Pérez", "Sánchez", "Ramírez", "Torres" };
+        var apellidosMaternos = new[] { "Morales", "Jiménez", "Ruiz", "Díaz", "Moreno", "Muñoz", "Álvarez", "Romero", "Gutiérrez", "Vargas" };
+        
+        var nombre = nombres[random.Next(nombres.Length)];
+        var paterno = apellidosPaternos[random.Next(apellidosPaternos.Length)];
+        var materno = apellidosMaternos[random.Next(apellidosMaternos.Length)];
+        
+        // Generar número de empleado único
+        var numeroEmpleado = $"EMP{random.Next(1000, 9999)}";
+        
+        // Generar RFC (formato básico)
+        var iniciales = $"{paterno.Substring(0, 2)}{materno.Substring(0, 1)}{nombre.Substring(0, 1)}".ToUpper();
+        var fecha = "800101"; // Fecha ejemplo
+        var homoclave = $"{(char)('A' + random.Next(26))}{(char)('A' + random.Next(26))}{random.Next(10)}";
+        var rfc = $"{iniciales}{fecha}{homoclave}";
+        
+        // Generar CURP (formato básico)
+        var sexoLetra = random.Next(2) == 0 ? "H" : "M";
+        var estado = "BC"; // Baja California
+        var consonantes = "BCDFGHJKLMNPQRSTVWXYZ";
+        var curp = $"{iniciales}{fecha}{sexoLetra}{estado}{consonantes[random.Next(consonantes.Length)]}{consonantes[random.Next(consonantes.Length)]}{consonantes[random.Next(consonantes.Length)]}{random.Next(10)}{random.Next(10)}";
+        
+        // Generar email institucional
+        var emailNombre = nombre.Split(' ')[0].ToLower();
+        var emailApellido = paterno.ToLower();
+        var email = $"{emailNombre}.{emailApellido}@uabc.edu.mx";
+        
+        docente = new DocenteDTO
+        {
+            // Datos Personales
+            NombreDocente = nombre,
+            PaternoDocente = paterno,
+            MaternoDocente = materno,
+            FechaNacimiento = DateTime.Now.AddYears(-random.Next(25, 65)), // Entre 25 y 65 años
+            IdSexo = random.Next(1, 3), // 1=Masculino, 2=Femenino (VALORES REALES)
+            RFC = rfc,
+            CURP = curp,
+            TelefonoCasa = $"664{random.Next(1000000, 9999999)}",
+            TelefonoCelular = $"664{random.Next(1000000, 9999999)}",
+            Direccion = $"Calle {random.Next(1, 50)} #{random.Next(100, 9999)}, Colonia {(random.Next(2) == 0 ? "Centro" : "Universidad")}, Tijuana, BC",
+            IdEstadoCivil = random.Next(1, 5), // 1=Soltero, 2=Casado, 3=Divorciado, 4=Viudo (VALORES REALES)
+            
+            // Datos Institucionales
+            NumeroEmpleado = numeroEmpleado,
+            FechaIngreso = DateTime.Now.AddYears(-random.Next(1, 15)), // Entre 1 y 15 años de antigüedad
+            EstadoDocente = 1, // Activo por defecto
+            IdCategoria = random.Next(1, 4), // 1=Tiempo Completo, 2=Medio Tiempo, 3=Asignatura (VALORES REALES)
+            IdNombramiento = random.Next(1, 4), // 1=Base, 2=Interino, 3=Honorarios (VALORES REALES)
+            IdCarrera = 1, // Solo existe 1 carrera: "Ingeniería en Software y Tecnologías Emergentes"
+            IdEscolaridad = random.Next(1, 4), // 1=Licenciatura, 2=Maestría, 3=Doctorado (VALORES REALES)
+            UniversidadLicenciatura = random.Next(3) switch 
+            {
+                0 => "UABC",
+                1 => "UNAM",
+                _ => "IPN"
+            },
+            CedulaProfesional = random.Next(1000000, 9999999).ToString(),
+            EmailInstitucional = email,
+            Extension = random.Next(1000, 9999).ToString(),
+            IdNivelSNI = random.Next(1, 5), // 1=Nivel I, 2=Nivel II, 3=Nivel III, 4=No Aplica (VALORES REALES)
+            IdPRODEP = random.Next(1, 3) // 1="Sí", 2="No" (VALORES REALES)
+        };
+        
+        // Actualizar variables de estado del componente
+        estaActivo = docente.EstadoDocente == 1;
+        tieneProdep = docente.IdPRODEP == 1; // 1 = "Sí", 2 = "No"
+        
+        // Forzar actualización de la UI
+        StateHasChanged();
+        
+        // Mostrar mensaje informativo
+        JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Formulario completado automáticamente con datos de ejemplo");
+    }
+} 

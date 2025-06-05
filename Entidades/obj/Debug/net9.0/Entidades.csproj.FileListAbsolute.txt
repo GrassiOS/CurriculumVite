@@ -1,74 +1,87 @@
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\bin\Debug\net9.0\Entidades.deps.json
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\bin\Debug\net9.0\Entidades.dll
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\bin\Debug\net9.0\Entidades.pdb
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.AssemblyReference.cache
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\Entidades.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfoInputs.cache
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfo.cs
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.CoreCompileInputs.cache
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\Entidades.sourcelink.json
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\Entidades.dll
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\refint\Entidades.dll
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\Entidades.pdb
-C:\Users\Acer Ryzen\Documents\BlazorProjects\CEF-365\Entidades\obj\Debug\net9.0\ref\Entidades.dll
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\bin\Debug\net9.0\Entidades.deps.json
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\bin\Debug\net9.0\Entidades.dll
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\bin\Debug\net9.0\Entidades.pdb
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.AssemblyReference.cache
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\Entidades.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfoInputs.cache
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfo.cs
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.CoreCompileInputs.cache
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\Entidades.sourcelink.json
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\Entidades.dll
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\refint\Entidades.dll
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\Entidades.pdb
-C:\Users\vvmejia\Desktop\CEF-365_Jalid\CEF-365\Entidades\obj\Debug\net9.0\ref\Entidades.dll
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\bin\Debug\net9.0\Entidades.deps.json
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\bin\Debug\net9.0\Entidades.dll
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\bin\Debug\net9.0\Entidades.pdb
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.AssemblyReference.cache
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\obj\Debug\net9.0\Entidades.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfoInputs.cache
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfo.cs
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.CoreCompileInputs.cache
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\obj\Debug\net9.0\Entidades.dll
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\obj\Debug\net9.0\refint\Entidades.dll
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\obj\Debug\net9.0\Entidades.pdb
-C:\Users\vvmejia\Desktop\CEF-365\Entidades\obj\Debug\net9.0\ref\Entidades.dll
-E:\Hoy15052025\CEF-365\Entidades\bin\Debug\net9.0\Entidades.deps.json
-E:\Hoy15052025\CEF-365\Entidades\bin\Debug\net9.0\Entidades.dll
-E:\Hoy15052025\CEF-365\Entidades\bin\Debug\net9.0\Entidades.pdb
-E:\Hoy15052025\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.AssemblyReference.cache
-E:\Hoy15052025\CEF-365\Entidades\obj\Debug\net9.0\Entidades.GeneratedMSBuildEditorConfig.editorconfig
-E:\Hoy15052025\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfoInputs.cache
-E:\Hoy15052025\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfo.cs
-E:\Hoy15052025\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.CoreCompileInputs.cache
-E:\Hoy15052025\CEF-365\Entidades\obj\Debug\net9.0\Entidades.dll
-E:\Hoy15052025\CEF-365\Entidades\obj\Debug\net9.0\refint\Entidades.dll
-E:\Hoy15052025\CEF-365\Entidades\obj\Debug\net9.0\Entidades.pdb
-E:\Hoy15052025\CEF-365\Entidades\obj\Debug\net9.0\ref\Entidades.dll
-H:\CEF-365\Entidades\bin\Debug\net9.0\Entidades.deps.json
-H:\CEF-365\Entidades\bin\Debug\net9.0\Entidades.dll
-H:\CEF-365\Entidades\bin\Debug\net9.0\Entidades.pdb
-H:\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.AssemblyReference.cache
-H:\CEF-365\Entidades\obj\Debug\net9.0\Entidades.GeneratedMSBuildEditorConfig.editorconfig
-H:\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfoInputs.cache
-H:\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfo.cs
-H:\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.CoreCompileInputs.cache
-H:\CEF-365\Entidades\obj\Debug\net9.0\Entidades.dll
-H:\CEF-365\Entidades\obj\Debug\net9.0\refint\Entidades.dll
-H:\CEF-365\Entidades\obj\Debug\net9.0\Entidades.pdb
-H:\CEF-365\Entidades\obj\Debug\net9.0\ref\Entidades.dll
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\bin\Debug\net9.0\Entidades.deps.json
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\bin\Debug\net9.0\Entidades.dll
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\bin\Debug\net9.0\Entidades.pdb
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.AssemblyReference.cache
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\obj\Debug\net9.0\Entidades.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfoInputs.cache
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\obj\Debug\net9.0\Entidades.AssemblyInfo.cs
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\obj\Debug\net9.0\Entidades.csproj.CoreCompileInputs.cache
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\obj\Debug\net9.0\Entidades.dll
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\obj\Debug\net9.0\refint\Entidades.dll
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\obj\Debug\net9.0\Entidades.pdb
-C:\Users\jorge\OneDrive\Documents\z.-UABC\CEF-365\Entidades\obj\Debug\net9.0\ref\Entidades.dll
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/bin/Debug/net9.0/Entidades.deps.json
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/bin/Debug/net9.0/Entidades.dll
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/bin/Debug/net9.0/Entidades.pdb
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.AssemblyReference.cache
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/Entidades.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfoInputs.cache
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfo.cs
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.CoreCompileInputs.cache
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/Entidades.sourcelink.json
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/Entidades.dll
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/refint/Entidades.dll
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/Entidades.pdb
+C:/Users/Acer Ryzen/Documents/BlazorProjects/CEF-365/Entidades/obj/Debug/net9.0/ref/Entidades.dll
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/bin/Debug/net9.0/Entidades.deps.json
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/bin/Debug/net9.0/Entidades.dll
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/bin/Debug/net9.0/Entidades.pdb
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.AssemblyReference.cache
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/Entidades.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfoInputs.cache
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfo.cs
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.CoreCompileInputs.cache
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/Entidades.sourcelink.json
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/Entidades.dll
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/refint/Entidades.dll
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/Entidades.pdb
+C:/Users/vvmejia/Desktop/CEF-365_Jalid/CEF-365/Entidades/obj/Debug/net9.0/ref/Entidades.dll
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/bin/Debug/net9.0/Entidades.deps.json
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/bin/Debug/net9.0/Entidades.dll
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/bin/Debug/net9.0/Entidades.pdb
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.AssemblyReference.cache
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/obj/Debug/net9.0/Entidades.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfoInputs.cache
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfo.cs
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.CoreCompileInputs.cache
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/obj/Debug/net9.0/Entidades.dll
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/obj/Debug/net9.0/refint/Entidades.dll
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/obj/Debug/net9.0/Entidades.pdb
+C:/Users/vvmejia/Desktop/CEF-365/Entidades/obj/Debug/net9.0/ref/Entidades.dll
+E:/Hoy15052025/CEF-365/Entidades/bin/Debug/net9.0/Entidades.deps.json
+E:/Hoy15052025/CEF-365/Entidades/bin/Debug/net9.0/Entidades.dll
+E:/Hoy15052025/CEF-365/Entidades/bin/Debug/net9.0/Entidades.pdb
+E:/Hoy15052025/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.AssemblyReference.cache
+E:/Hoy15052025/CEF-365/Entidades/obj/Debug/net9.0/Entidades.GeneratedMSBuildEditorConfig.editorconfig
+E:/Hoy15052025/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfoInputs.cache
+E:/Hoy15052025/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfo.cs
+E:/Hoy15052025/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.CoreCompileInputs.cache
+E:/Hoy15052025/CEF-365/Entidades/obj/Debug/net9.0/Entidades.dll
+E:/Hoy15052025/CEF-365/Entidades/obj/Debug/net9.0/refint/Entidades.dll
+E:/Hoy15052025/CEF-365/Entidades/obj/Debug/net9.0/Entidades.pdb
+E:/Hoy15052025/CEF-365/Entidades/obj/Debug/net9.0/ref/Entidades.dll
+H:/CEF-365/Entidades/bin/Debug/net9.0/Entidades.deps.json
+H:/CEF-365/Entidades/bin/Debug/net9.0/Entidades.dll
+H:/CEF-365/Entidades/bin/Debug/net9.0/Entidades.pdb
+H:/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.AssemblyReference.cache
+H:/CEF-365/Entidades/obj/Debug/net9.0/Entidades.GeneratedMSBuildEditorConfig.editorconfig
+H:/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfoInputs.cache
+H:/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfo.cs
+H:/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.CoreCompileInputs.cache
+H:/CEF-365/Entidades/obj/Debug/net9.0/Entidades.dll
+H:/CEF-365/Entidades/obj/Debug/net9.0/refint/Entidades.dll
+H:/CEF-365/Entidades/obj/Debug/net9.0/Entidades.pdb
+H:/CEF-365/Entidades/obj/Debug/net9.0/ref/Entidades.dll
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/bin/Debug/net9.0/Entidades.deps.json
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/bin/Debug/net9.0/Entidades.dll
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/bin/Debug/net9.0/Entidades.pdb
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.AssemblyReference.cache
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/obj/Debug/net9.0/Entidades.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfoInputs.cache
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfo.cs
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/obj/Debug/net9.0/Entidades.csproj.CoreCompileInputs.cache
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/obj/Debug/net9.0/Entidades.dll
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/obj/Debug/net9.0/refint/Entidades.dll
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/obj/Debug/net9.0/Entidades.pdb
+C:/Users/jorge/OneDrive/Documents/z.-UABC/CEF-365/Entidades/obj/Debug/net9.0/ref/Entidades.dll
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/bin/Debug/net9.0/Entidades.deps.json
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/bin/Debug/net9.0/Entidades.dll
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/bin/Debug/net9.0/Entidades.pdb
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/Entidades.csproj.AssemblyReference.cache
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/Entidades.GeneratedMSBuildEditorConfig.editorconfig
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfoInputs.cache
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/Entidades.AssemblyInfo.cs
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/Entidades.csproj.CoreCompileInputs.cache
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/Entidades.sourcelink.json
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/Entidades.dll
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/refint/Entidades.dll
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/Entidades.pdb
+/Users/martinortiz/Desktop/CV/CurriculumVite/Entidades/obj/Debug/net9.0/ref/Entidades.dll

@@ -9,6 +9,10 @@ namespace Entidades.Modelos.CurriculumVite
         public string? Nombre { get; set; }
         public string? Institucion { get; set; }
         public string? Descripcion { get; set; }
-        public int Anio { get; set; }
+        public int? Anio { get; set; }
+        
+        // Navigation property
+        public virtual E_Docente? Docente { get; set; }
+        public virtual ICollection<E_Documento>? Documentos { get; set; }
     }
 }

@@ -18,6 +18,7 @@ using Datos.Repositorios.CurriculumVite;
 using Servicios.IRepositorios.CurriculumVite;
 using Servicios.Repositorios.CurriculumVite;
 using Entidades.PerfilesDTO.CurriculumVite;
+using Negocios.Repositorios.CurriculumVite;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -81,6 +82,13 @@ builder.Services.AddScoped<PlanEstudioServicios>();
 
 
 // —— Inyección de dependencias para CurriculumVite ——
+
+// Docente CRUD completo
+builder.Services.AddScoped<IDocenteRepositorio, DocenteRepositorio>();
+builder.Services.AddScoped<DocenteNegocios>();
+builder.Services.AddScoped<ISDocenteRepositorio, DocenteServicios>();
+
+// Otras entidades de CurriculumVite
 builder.Services.AddScoped<IRepositorioDistincion, DistincionRepositorio>();
 builder.Services.AddScoped<IRepositorioExperiencia, ExperienciaRepositorio>();
 builder.Services.AddScoped<IRepositorioTipoContacto, TipoContactoRepositorio>();
@@ -110,8 +118,8 @@ builder.Services.AddServerSideBlazor(options => {
     options.DetailedErrors = true; // Habilita errores detallados
 });
 
-// En ConfigureServices
-builder.Services.AddAutoMapper(typeof(CarreraProfile));
+// En ConfigureServices - Incluir todos los perfiles de AutoMapper
+builder.Services.AddAutoMapper(typeof(CarreraProfile), typeof(DocenteProfile));
 
 //Servicio para Quill Editor
 builder.Services.AddHttpClient(); // Agrega este registro

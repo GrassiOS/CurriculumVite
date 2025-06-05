@@ -6,8 +6,29 @@ using Entidades.Modelos.PlanesDeEstudio.Etapas;
 using Entidades.Modelos.PlanesDeEstudio.Materias;
 using Entidades.Modelos.PlanesDeEstudio.PlanEstudios;
 using Entidades.Configuraciones.CurriculumVite;
-using Entidades.Modelos.CurriculumVite;
 using Microsoft.EntityFrameworkCore;
+
+// Usar alias para evitar conflictos de nombres
+using PlanCarrera = Entidades.Modelos.PlanesDeEstudio.Carreras.E_Carrera;
+using CVDocente = Entidades.Modelos.CurriculumVite.E_Docente;
+using CVDistincion = Entidades.Modelos.CurriculumVite.E_Distincion;
+using CVExperiencia = Entidades.Modelos.CurriculumVite.E_Experiencia;
+using CVTipoContacto = Entidades.Modelos.CurriculumVite.E_TipoContacto;
+using CVContactoDocente = Entidades.Modelos.CurriculumVite.E_ContactoDocente;
+using CVProyecto = Entidades.Modelos.CurriculumVite.E_Proyecto;
+using CVEducacion = Entidades.Modelos.CurriculumVite.E_Educacion;
+using CVPublicacion = Entidades.Modelos.CurriculumVite.E_Publicacion;
+using CVTesisDirigida = Entidades.Modelos.CurriculumVite.E_TesisDirigida;
+using CVDocumento = Entidades.Modelos.CurriculumVite.E_Documento;
+using CVSexo = Entidades.Modelos.CurriculumVite.E_Sexo;
+using CVEstadoCivil = Entidades.Modelos.CurriculumVite.E_EstadoCivil;
+using CVCategoria = Entidades.Modelos.CurriculumVite.E_Categoria;
+using CVNombramiento = Entidades.Modelos.CurriculumVite.E_Nombramiento;
+using CVEscolaridad = Entidades.Modelos.CurriculumVite.E_Escolaridad;
+using CVSNI = Entidades.Modelos.CurriculumVite.E_SNI;
+using CVPRODEP = Entidades.Modelos.CurriculumVite.E_PRODEP;
+using CVCuerpoAcademico = Entidades.Modelos.CurriculumVite.E_CuerpoAcademico;
+using CVContactoProfesor = Entidades.Modelos.CurriculumVite.E_ContactoProfesor;
 
 namespace Datos
 {
@@ -19,23 +40,37 @@ namespace Datos
         }
 
         // Planes de Estudio DbSets
-        public DbSet<E_Carrera> Carreras { get; set; }
+        public DbSet<PlanCarrera> CarrerasPlanEstudio { get; set; }
         public DbSet<E_PlanEstudio> PlanEstudios { get; set; }
         public DbSet<E_PlanEstudioMateria> PlanEstudioMaterias { get; set; }
         public DbSet<E_Materia> Materias { get; set; }
         public DbSet<E_Etapa> Etapas { get; set; }
         public DbSet<E_AreaConocimiento> AreasConocimiento { get; set; }
 
-        // CurriculumVite DbSets
-        public DbSet<E_Distincion> Distinciones { get; set; }
-        public DbSet<E_Experiencia> Experiencias { get; set; }
-        public DbSet<E_TipoContacto> TipoContactos { get; set; }
-        public DbSet<E_ContactoDocente> ContactoDocentes { get; set; }
-        public DbSet<E_Proyecto> Proyectos { get; set; }
-        public DbSet<E_Educacion> Educaciones { get; set; }
-        public DbSet<E_Publicacion> Publicaciones { get; set; }
-        public DbSet<E_TesisDirigida> TesisDirigidas { get; set; }
-        public DbSet<E_Documento> Documentos { get; set; }
+        // CurriculumVite DbSets - Entidades principales
+        public DbSet<CVDocente> Docentes { get; set; }
+        
+        // Catálogos
+        public DbSet<CVSexo> Sexos { get; set; }
+        public DbSet<CVEstadoCivil> EstadosCiviles { get; set; }
+        public DbSet<CVCategoria> Categorias { get; set; }
+        public DbSet<CVNombramiento> Nombramientos { get; set; }
+        public DbSet<CVEscolaridad> Escolaridades { get; set; }
+        public DbSet<CVSNI> NivelesSNI { get; set; }
+        public DbSet<CVPRODEP> PRODEP { get; set; }
+        public DbSet<CVCuerpoAcademico> CuerposAcademicos { get; set; }
+        
+        // CV Entidades
+        public DbSet<CVDistincion> Distinciones { get; set; }
+        public DbSet<CVExperiencia> Experiencias { get; set; }
+        public DbSet<CVTipoContacto> TipoContactos { get; set; }
+        public DbSet<CVContactoDocente> ContactoDocentes { get; set; }
+        public DbSet<CVProyecto> Proyectos { get; set; }
+        public DbSet<CVEducacion> Educaciones { get; set; }
+        public DbSet<CVPublicacion> Publicaciones { get; set; }
+        public DbSet<CVTesisDirigida> TesisDirigidas { get; set; }
+        public DbSet<CVDocumento> Documentos { get; set; }
+        public DbSet<CVContactoProfesor> ContactoProfesores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +85,16 @@ namespace Datos
             modelBuilder.ApplyConfiguration(new AreaConocimientoConfig());
 
             // CurriculumVite Configurations
+            modelBuilder.ApplyConfiguration(new E_DocenteConfig());
+            modelBuilder.ApplyConfiguration(new E_SexoConfig());
+            modelBuilder.ApplyConfiguration(new E_EstadoCivilConfig());
+            modelBuilder.ApplyConfiguration(new E_CategoriaConfig());
+            modelBuilder.ApplyConfiguration(new E_NombramientoConfig());
+            modelBuilder.ApplyConfiguration(new E_EscolaridadConfig());
+            modelBuilder.ApplyConfiguration(new E_SNIConfig());
+            modelBuilder.ApplyConfiguration(new E_PRODEPConfig());
+            modelBuilder.ApplyConfiguration(new E_CuerpoAcademicoConfig());
+            
             modelBuilder.ApplyConfiguration(new E_DistincionConfig());
             modelBuilder.ApplyConfiguration(new E_ExperienciaConfig());
             modelBuilder.ApplyConfiguration(new E_TipoContactoConfig());
@@ -59,6 +104,7 @@ namespace Datos
             modelBuilder.ApplyConfiguration(new E_PublicacionConfig());
             modelBuilder.ApplyConfiguration(new E_TesisDirigidaConfig());
             modelBuilder.ApplyConfiguration(new E_DocumentoConfig());
+            modelBuilder.ApplyConfiguration(new E_ContactoProfesorConfig());
         }
     }
 }

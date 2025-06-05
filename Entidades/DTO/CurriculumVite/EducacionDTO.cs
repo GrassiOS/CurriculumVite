@@ -11,5 +11,12 @@ namespace Entidades.DTO.CurriculumVite
         public string? Pais { get; set; }
         public int? AnioInicio { get; set; }
         public int? AnioFin { get; set; }
+        
+        // Propiedades calculadas
+        public string NombreDocente { get; set; } = null!;
+        public string PeriodoFormateado => $"{AnioInicio ?? 0} - {(AnioFin?.ToString() ?? "En curso")}";
+        public bool EnCurso => !AnioFin.HasValue;
+        public int DuracionAnios => AnioFin.HasValue && AnioInicio.HasValue ? 
+            AnioFin.Value - AnioInicio.Value : 0;
     }
 }
