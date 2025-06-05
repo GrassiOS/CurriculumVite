@@ -12,6 +12,5 @@ namespace Entidades.Modelos.CurriculumVite
         
         // Navigation property
         public virtual E_Docente? Docente { get; set; }
-        public virtual ICollection<E_Documento>? Documentos { get; set; }
     }
 }

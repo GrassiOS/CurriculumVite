@@ -8,7 +8,7 @@ namespace Entidades.Configuraciones.CurriculumVite
     {
         public void Configure(EntityTypeBuilder<E_TesisDirigida> builder)
         {
-            builder.ToTable("TesisDirigida");
+            builder.ToTable("TesisDirigida", "CV");
             builder.HasKey(e => e.IdTesis);
             builder.Property(e => e.IdDocente).IsRequired();
             builder.Property(e => e.Autor).HasMaxLength(200);
@@ -16,6 +16,12 @@ namespace Entidades.Configuraciones.CurriculumVite
             builder.Property(e => e.Nivel).HasMaxLength(50);
             builder.Property(e => e.Universidad).HasMaxLength(200);
             builder.Property(e => e.Anio);
+            
+            // Configurar la relación con E_Docente
+            builder.HasOne<E_Docente>()
+                .WithMany(d => d.TesisDirigidas)
+                .HasForeignKey(t => t.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

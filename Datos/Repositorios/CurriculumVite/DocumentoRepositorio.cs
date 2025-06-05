@@ -27,8 +27,47 @@ namespace Datos.Repositorios.CurriculumVite
 
         public async Task AddAsync(E_Documento entity)
         {
-            await _context.Documentos.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                Console.WriteLine($"🇲🇽 DocumentoRepositorio: Agregando entidad al contexto");
+                Console.WriteLine($"🇲🇽 Entity: IdDocente={entity.IdDocente}, IdPublicacion={entity.IdPublicacion}");
+                
+                await _context.Documentos.AddAsync(entity);
+                
+                Console.WriteLine($"🇲🇽 DocumentoRepositorio: Llamando SaveChangesAsync...");
+                await _context.SaveChangesAsync();
+                
+                Console.WriteLine($"🇲🇽 DocumentoRepositorio: SaveChanges completado. ID generado: {entity.IdDocumento}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"🇲🇽 ERROR en DocumentoRepositorio.AddAsync:");
+                Console.WriteLine($"🇲🇽 Exception Type: {ex.GetType().Name}");
+                Console.WriteLine($"🇲🇽 Message: {ex.Message}");
+                
+                // Capturar inner exceptions
+                var currentEx = ex;
+                int level = 0;
+                while (currentEx != null)
+                {
+                    Console.WriteLine($"🇲🇽 [Level {level}] {currentEx.GetType().Name}: {currentEx.Message}");
+                    currentEx = currentEx.InnerException;
+                    level++;
+                }
+                
+                // Si es DbUpdateException, mostrar detalles específicos
+                if (ex is Microsoft.EntityFrameworkCore.DbUpdateException dbEx)
+                {
+                    Console.WriteLine($"🇲🇽 DbUpdateException detalles:");
+                    foreach (var entry in dbEx.Entries)
+                    {
+                        Console.WriteLine($"🇲🇽 Entry Type: {entry.Entity.GetType().Name}");
+                        Console.WriteLine($"🇲🇽 Entry State: {entry.State}");
+                    }
+                }
+                
+                throw; // Re-lanzar para mantener el comportamiento original
+            }
         }
 
         public async Task UpdateAsync(E_Documento entity)
@@ -45,6 +84,14 @@ namespace Datos.Repositorios.CurriculumVite
                 _context.Documentos.Remove(entity);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<IEnumerable<E_Documento>> GetDocumentosByPublicacionAsync(int idPublicacion)
+        {
+            return await _context.Documentos
+                .Where(d => d.IdPublicacion == idPublicacion)
+                .OrderByDescending(d => d.FechaSubida)
+                .ToListAsync();
         }
     }
 }

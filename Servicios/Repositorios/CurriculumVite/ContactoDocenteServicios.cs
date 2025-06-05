@@ -39,5 +39,15 @@ namespace Servicios.Repositorios.CurriculumVite
         {
             await _repoDatos.DeleteAsync(id);
         }
+
+        public async Task<IEnumerable<E_ContactoDocente>> GetContactosByDocenteIdAsync(int idDocente)
+        {
+            return await _repoDatos.GetContactosByDocenteIdAsync(idDocente);
+        }
+
+        public async Task<bool> ExisteContactoConTipoParaDocenteAsync(int idDocente, int idTipoContacto)
+        {
+            return await _repoDatos.ExisteContactoConTipoParaDocenteAsync(idDocente, idTipoContacto);
+        }
     }
 }

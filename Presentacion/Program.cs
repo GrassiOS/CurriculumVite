@@ -109,6 +109,8 @@ builder.Services.AddScoped<ISRepositorioPublicacion, PublicacionServicios>();
 builder.Services.AddScoped<ISRepositorioTesisDirigida, TesisDirigidaServicios>();
 builder.Services.AddScoped<ISRepositorioDocumento, DocumentoServicios>();
 
+// Registro del DocumentRepository para subida de archivos
+builder.Services.AddScoped<Servicios.IRepositorios.IDocumentRepository, Servicios.Repositorios.DocumentRepository>();
 
 // Inyeccion de dependecia para SweeetAlert
 builder.Services.AddScoped<SweetAlertServicios>();
@@ -119,7 +121,7 @@ builder.Services.AddServerSideBlazor(options => {
 });
 
 // En ConfigureServices - Incluir todos los perfiles de AutoMapper
-builder.Services.AddAutoMapper(typeof(CarreraProfile), typeof(DocenteProfile));
+builder.Services.AddAutoMapper(typeof(CarreraProfile), typeof(DocenteProfile), typeof(ContactoDocenteProfile), typeof(TipoContactoProfile));
 
 //Servicio para Quill Editor
 builder.Services.AddHttpClient(); // Agrega este registro

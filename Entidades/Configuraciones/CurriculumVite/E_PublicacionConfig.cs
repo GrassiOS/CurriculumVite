@@ -8,7 +8,7 @@ namespace Entidades.Configuraciones.CurriculumVite
     {
         public void Configure(EntityTypeBuilder<E_Publicacion> builder)
         {
-            builder.ToTable("Publicacion");
+            builder.ToTable("Publicacion", "CV");
             builder.HasKey(e => e.IdPublicacion);
             builder.Property(e => e.IdDocente).IsRequired();
             builder.Property(e => e.Titulo);
@@ -16,7 +16,13 @@ namespace Entidades.Configuraciones.CurriculumVite
             builder.Property(e => e.Autores);
             builder.Property(e => e.Fuente).HasMaxLength(300);
             builder.Property(e => e.Anio);
-            builder.Property(e => e.Enlace).IsRequired();
+            builder.Property(e => e.Enlace);
+            
+            // Configurar la relación con E_Docente explícitamente
+            builder.HasOne<E_Docente>()
+                   .WithMany(d => d.Publicaciones)
+                   .HasForeignKey(p => p.IdDocente)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

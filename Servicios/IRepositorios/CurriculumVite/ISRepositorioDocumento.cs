@@ -11,5 +11,7 @@ namespace Servicios.IRepositorios.CurriculumVite
         Task AddAsync(E_Documento entity);
         Task UpdateAsync(E_Documento entity);
         Task DeleteAsync(int id);
+        Task<IEnumerable<E_Documento>> GetDocumentosByPublicacionAsync(int idPublicacion);
+        Task<E_Documento> CreateDocumentoForPublicacionAsync(int idDocente, int idPublicacion, string titulo, string url, string descripcion);
     }
 }

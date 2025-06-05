@@ -16,12 +16,6 @@ namespace Entidades.Modelos.CurriculumVite
         public string? Descripcion { get; set; }
         public DateTime FechaSubida { get; set; }
         
-        // Navigation properties
-        public virtual E_Docente? Docente { get; set; }
-        public virtual E_Publicacion? Publicacion { get; set; }
-        public virtual E_Distincion? Distincion { get; set; }
-        public virtual E_Proyecto? Proyecto { get; set; }
-        public virtual E_TesisDirigida? TesisDirigida { get; set; }
-        public virtual E_Educacion? Educacion { get; set; }
+        // Sin navigation properties para evitar nombres automáticos de columnas
     }
 }

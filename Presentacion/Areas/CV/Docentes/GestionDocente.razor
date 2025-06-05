@@ -377,7 +377,12 @@
                                 <button type="button" class="btn btn-outline-danger me-2" @onclick="EliminarDocente">
                                     <i class="fas fa-trash me-2"></i>Eliminar
                                 </button>
+                                
+                                <button type="button" class="btn btn-info me-2" style="background-color: #F4BF3A; border-color: #F4BF3A; color: #2D6B3C;" @onclick="IrAContactos">
+                                    <i class="fas fa-address-book me-2"></i>Gestionar Contactos
+                                </button>
                             }
+                            
                             <button type="submit" class="btn btn-primary" style="background-color: #2D6B3C; border-color: #2D6B3C;" 
                                     disabled="@guardando">
                                 @if (guardando)
@@ -388,8 +393,24 @@
                                 {
                                     <i class="fas fa-save me-2"></i>
                                 }
-                                @(EsEdicion ? "Actualizar" : "Guardar") Docente
+                                @(EsEdicion ? "Actualizar" : "Guardar")
                             </button>
+                            
+                            @if (!EsEdicion)
+                            {
+                                <button type="button" class="btn btn-success ms-2" style="background-color: #4BB463; border-color: #4BB463;" 
+                                        @onclick="GuardarYContinuar" disabled="@guardando">
+                                    @if (guardando)
+                                    {
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-save me-2"></i>
+                                    }
+                                    Guardar y Agregar Contactos
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -419,7 +440,7 @@
             
             if (EsEdicion)
             {
-                var resultado = await DocenteServicios.ObtenerDocente<DocenteDTO>(IdDocente.Value);
+                var resultado = await DocenteServicios.ObtenerDocente<DocenteDTO>(IdDocente!.Value);
                 if (resultado.Resultado && resultado.Entidad != null)
                 {
                     docente = resultado.Entidad;
@@ -485,8 +506,8 @@
                 var resultado = await DocenteServicios.InsertarDocente(docente);
                 if (resultado.Resultado)
                 {
-                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Docente agregado exitosamente. Ahora puedes agregar sus contactos.");
-                    Navigation.NavigateTo($"/CV/Docentes/{resultado.Entidad?.IdDocente}/Contactos");
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Docente agregado exitosamente");
+                    Navigation.NavigateTo("/CV/Docentes");
                 }
                 else
                 {
@@ -619,5 +640,47 @@
         
         // Mostrar mensaje informativo
         JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Formulario completado automáticamente con datos de ejemplo");
+    }
+
+    private void IrAContactos()
+    {
+        if (EsEdicion && IdDocente.HasValue)
+        {
+            Navigation.NavigateTo($"/CV/Docentes/{IdDocente.Value}/Contactos");
+        }
+    }
+
+    private async Task GuardarYContinuar()
+    {
+        try
+        {
+            guardando = true;
+            StateHasChanged();
+
+            // Actualizar los campos de estado
+            docente.EstadoDocente = estaActivo ? 1 : 0;
+            docente.IdPRODEP = tieneProdep ? 1 : 2; // 1 = "Sí", 2 = "No"
+
+            var resultado = await DocenteServicios.InsertarDocente(docente);
+            if (resultado.Resultado && resultado.Entidad != null)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Docente guardado exitosamente. Ahora puede agregar contactos.");
+                Navigation.NavigateTo($"/CV/Docentes/{resultado.Entidad.IdDocente}/Contactos");
+            }
+            else
+            {
+                var mensajes = string.Join(", ", resultado.Mensajes);
+                await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error al guardar: {mensajes}");
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error inesperado: {ex.Message}");
+        }
+        finally
+        {
+            guardando = false;
+            StateHasChanged();
+        }
     }
 } 

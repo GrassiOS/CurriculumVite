@@ -10,9 +10,7 @@ namespace Entidades.Configuraciones.CurriculumVite
         {
             builder.ToTable("TipoContacto", "CV");
             builder.HasKey(e => e.TipoContactoId);
-            
-            // Propiedades requeridas
-            builder.Property(e => e.Nombre).IsRequired().HasMaxLength(200);
+            builder.Property(e => e.Nombre).HasMaxLength(200).IsRequired();
         }
     }
 }

@@ -248,8 +248,8 @@ namespace Negocios.Repositorios.CurriculumVite
         {
             if (!string.IsNullOrWhiteSpace(emailInstitucional))
             {
-                // Regex que acepta caracteres latinos y números (tildes, ñ, números, etc.)
-                var emailRegex = @"^[a-zA-Z0-9._%+-áéíóúÁÉÍÓÚñÑüÜ]+@[a-zA-Z0-9.-áéíóúÁÉÍÓÚñÑüÜ]+\.[a-zA-Z]{2,}$";
+                // Regex más permisivo que acepta números, puntos, guiones y caracteres especiales
+                var emailRegex = @"^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
                 if (!Regex.IsMatch(emailInstitucional, emailRegex))
                 {
                     resultado.Mensajes.Add("El formato del email institucional no es válido.");

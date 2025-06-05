@@ -11,5 +11,9 @@ namespace Datos.IRepositorios.CurriculumVite
         Task AddAsync(E_ContactoDocente entity);
         Task UpdateAsync(E_ContactoDocente entity);
         Task DeleteAsync(int id);
+        
+        // Métodos específicos para contactos de docente
+        Task<IEnumerable<E_ContactoDocente>> GetContactosByDocenteIdAsync(int idDocente);
+        Task<bool> ExisteContactoConTipoParaDocenteAsync(int idDocente, int idTipoContacto);
     }
 }

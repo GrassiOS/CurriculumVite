@@ -8,7 +8,7 @@ namespace Entidades.Configuraciones.CurriculumVite
     {
         public void Configure(EntityTypeBuilder<E_Educacion> builder)
         {
-            builder.ToTable("Educacion");
+            builder.ToTable("Educacion", "CV");
             builder.HasKey(e => e.IdEducacion);
             builder.Property(e => e.IdDocente).IsRequired();
             builder.Property(e => e.Nivel).HasMaxLength(50).IsRequired();
@@ -18,6 +18,12 @@ namespace Entidades.Configuraciones.CurriculumVite
             builder.Property(e => e.Pais).HasMaxLength(100);
             builder.Property(e => e.AnioInicio);
             builder.Property(e => e.AnioFin);
+            
+            // Configurar la relación con E_Docente
+            builder.HasOne<E_Docente>()
+                .WithMany(d => d.Educaciones)
+                .HasForeignKey(edu => edu.IdDocente)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

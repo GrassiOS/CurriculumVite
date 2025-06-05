@@ -12,10 +12,30 @@ namespace Servicios.Repositorios.CurriculumVite
         private readonly DocenteNegocios _docenteNegocios = docenteNegocios;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<ResultadoAcciones> InsertarDocente(DocenteDTO docenteDTO)
+        public async Task<ResultadoAcciones<DocenteDTO>> InsertarDocente(DocenteDTO docenteDTO)
         {
             E_Docente docente = _mapper.Map<E_Docente>(docenteDTO);
-            return await _docenteNegocios.InsertarDocente(docente);
+            var resultado = await _docenteNegocios.InsertarDocente(docente);
+            
+            if (resultado.Resultado)
+            {
+                // Mapear la entidad de vuelta al DTO y devolverla
+                var docenteCreado = _mapper.Map<DocenteDTO>(docente);
+                return new ResultadoAcciones<DocenteDTO>
+                {
+                    Entidad = docenteCreado,
+                    Mensajes = resultado.Mensajes,
+                    Resultado = true
+                };
+            }
+            else
+            {
+                return new ResultadoAcciones<DocenteDTO>
+                {
+                    Mensajes = resultado.Mensajes,
+                    Resultado = false
+                };
+            }
         }
 
         public async Task<ResultadoAcciones> BorrarDocente(int idDocente)

@@ -28,7 +28,6 @@ using CVEscolaridad = Entidades.Modelos.CurriculumVite.E_Escolaridad;
 using CVSNI = Entidades.Modelos.CurriculumVite.E_SNI;
 using CVPRODEP = Entidades.Modelos.CurriculumVite.E_PRODEP;
 using CVCuerpoAcademico = Entidades.Modelos.CurriculumVite.E_CuerpoAcademico;
-using CVContactoProfesor = Entidades.Modelos.CurriculumVite.E_ContactoProfesor;
 
 namespace Datos
 {
@@ -70,7 +69,6 @@ namespace Datos
         public DbSet<CVPublicacion> Publicaciones { get; set; }
         public DbSet<CVTesisDirigida> TesisDirigidas { get; set; }
         public DbSet<CVDocumento> Documentos { get; set; }
-        public DbSet<CVContactoProfesor> ContactoProfesores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -104,7 +102,6 @@ namespace Datos
             modelBuilder.ApplyConfiguration(new E_PublicacionConfig());
             modelBuilder.ApplyConfiguration(new E_TesisDirigidaConfig());
             modelBuilder.ApplyConfiguration(new E_DocumentoConfig());
-            modelBuilder.ApplyConfiguration(new E_ContactoProfesorConfig());
         }
     }
 }

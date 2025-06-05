@@ -1,0 +1,536 @@
+@using Entidades.DTO.CurriculumVite
+@using Entidades.Utilidades
+@using Servicios.IRepositorios.CurriculumVite
+@using Servicios.IRepositorios
+@inject ISRepositorioPublicacion PublicacionServicios
+@inject ISRepositorioDocumento DocumentoServicios
+@inject IDocumentRepository DocumentRepository
+@inject IJSRuntime JSRuntime
+
+<!-- Modal -->
+<div class="modal fade" id="modalPublicacion" tabindex="-1" aria-labelledby="modalPublicacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2D6B3C; color: white;">
+                <h5 class="modal-title" id="modalPublicacionLabel">
+                    <i class="fas fa-book"></i> 
+                    @(IsEditing ? "Editar Publicación" : "Nueva Publicación")
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="PublicacionActual" OnValidSubmit="GuardarPublicacion">
+                    <DataAnnotationsValidator />
+                    
+                    <!-- Título -->
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título *</label>
+                        <InputText id="titulo" class="form-control" @bind-Value="PublicacionActual.Titulo" />
+                        <ValidationMessage For="@(() => PublicacionActual.Titulo)" />
+                    </div>
+
+                    <!-- Tipo de Publicación -->
+                    <div class="mb-3">
+                        <label for="tipoPublicacion" class="form-label">Tipo de Publicación *</label>
+                        <InputSelect id="tipoPublicacion" class="form-select" @bind-Value="PublicacionActual.TipoPublicacion">
+                            <option value="">Seleccione un tipo</option>
+                            <option value="Artículo de Revista">Artículo de Revista</option>
+                            <option value="Libro">Libro</option>
+                            <option value="Capítulo de Libro">Capítulo de Libro</option>
+                            <option value="Memoria de Congreso">Memoria de Congreso</option>
+                            <option value="Tesis">Tesis</option>
+                            <option value="Reporte Técnico">Reporte Técnico</option>
+                            <option value="Otro">Otro</option>
+                        </InputSelect>
+                        <ValidationMessage For="@(() => PublicacionActual.TipoPublicacion)" />
+                    </div>
+
+                    <!-- Autores -->
+                    <div class="mb-3">
+                        <label for="autores" class="form-label">Autores</label>
+                        <InputTextArea id="autores" class="form-control" rows="2" @bind-Value="PublicacionActual.Autores" 
+                                     placeholder="Separar autores con comas"/>
+                        <div class="form-text">Ejemplo: García, J., López, M., Smith, R.</div>
+                    </div>
+
+                    <!-- Fuente -->
+                    <div class="mb-3">
+                        <label for="fuente" class="form-label">Fuente/Editorial</label>
+                        <InputText id="fuente" class="form-control" @bind-Value="PublicacionActual.Fuente" 
+                                 placeholder="Nombre de la revista, editorial, conferencia, etc."/>
+                    </div>
+
+                    <!-- Año -->
+                    <div class="mb-3">
+                        <label for="anio" class="form-label">Año</label>
+                        <InputNumber id="anio" class="form-control" @bind-Value="PublicacionActual.Anio" min="1950" max="@DateTime.Now.Year"/>
+                    </div>
+
+                    <!-- Enlace -->
+                    <div class="mb-3">
+                        <label for="enlace" class="form-label">
+                            Enlace 
+                            <span class="text-muted">(opcional)</span>
+                        </label>
+                        <InputText id="enlace" class="form-control" @bind-Value="PublicacionActual.Enlace" 
+                                 placeholder="https://... (deje vacío si no tiene enlace)"/>
+                        <div class="form-text">Enlace opcional a la publicación online. Si no tiene enlace disponible, puede dejarlo vacío.</div>
+                    </div>
+
+                    <!-- Subida de Documento -->
+                    <div class="mb-3">
+                        <label for="documento" class="form-label">Documento de Evidencia (opcional)</label>
+                        <div class="input-group">
+                            <InputFile id="documento" class="form-control" OnChange="OnFileSelected" accept=".pdf,.doc,.docx"/>
+                            <span class="input-group-text">
+                                @if (ArchivoSeleccionado != null)
+                                {
+                                    <i class="fas fa-check text-success"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-file-upload text-muted"></i>
+                                }
+                            </span>
+                        </div>
+                        <div class="form-text">Máximo 50MB. El archivo se subirá automáticamente al guardar.</div>
+                        @if (!string.IsNullOrEmpty(MensajeArchivo))
+                        {
+                            <div class="alert @(EsErrorArchivo ? "alert-danger" : "alert-success") mt-2" role="alert">
+                                @MensajeArchivo
+                            </div>
+                        }
+                        @if (ArchivoSeleccionado != null)
+                        {
+                            <div class="mt-2">
+                                <small class="text-info">
+                                    <i class="fas fa-info-circle"></i> Archivo seleccionado: @ArchivoSeleccionado.Name 
+                                    (@(Math.Round(ArchivoSeleccionado.Size / 1024.0 / 1024.0, 2)) MB)
+                                </small>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(UrlDocumento))
+                        {
+                            <div class="mt-2">
+                                <small class="text-success">
+                                    <i class="fas fa-check-circle"></i> Documento subido correctamente
+                                    <a href="@UrlDocumento" target="_blank" class="ms-2">Ver documento</a>
+                                </small>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success" disabled="@Guardando">
+                            @if (Guardando)
+                            {
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span> @(SubiendoArchivo ? "Subiendo archivo..." : "Guardando...")</span>
+                            }
+                            else
+                            {
+                                <i class="fas fa-save"></i> <span>Guardar</span>
+                            }
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public PublicacionDTO PublicacionActual { get; set; } = new();
+    [Parameter] public bool IsEditing { get; set; }
+    [Parameter] public EventCallback<PublicacionDTO> OnPublicacionGuardada { get; set; }
+    [Parameter] public string EmpleadoNombre { get; set; } = "";
+    [Parameter] public string NumeroEmpleado { get; set; } = "";
+
+    private IBrowserFile? ArchivoSeleccionado;
+    private bool SubiendoArchivo = false;
+    private bool Guardando = false;
+    private string MensajeArchivo = "";
+    private bool EsErrorArchivo = false;
+    private string UrlDocumento = "";
+    private string DocumentoId = "";
+    private string DocumentoPath = "";
+
+    private void OnFileSelected(InputFileChangeEventArgs e)
+    {
+        ArchivoSeleccionado = e.File;
+        MensajeArchivo = "";
+        EsErrorArchivo = false;
+        UrlDocumento = "";
+        DocumentoId = "";
+        DocumentoPath = "";
+        
+        // Validar tamaño inmediatamente
+        if (ArchivoSeleccionado != null && ArchivoSeleccionado.Size > 50 * 1024 * 1024)
+        {
+            MensajeArchivo = "El archivo no puede superar los 50MB";
+            EsErrorArchivo = true;
+            ArchivoSeleccionado = null;
+        }
+        
+        StateHasChanged();
+    }
+
+    private async Task<bool> SubirArchivoSiHay()
+    {
+        if (ArchivoSeleccionado == null) return true; // No hay archivo, continuar
+
+        try
+        {
+            SubiendoArchivo = true;
+            StateHasChanged();
+
+            // Leer el archivo
+            using var stream = ArchivoSeleccionado.OpenReadStream(maxAllowedSize: 50 * 1024 * 1024);
+            using var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            var fileData = memoryStream.ToArray();
+
+            // Subir a Google Drive usando DocumentRepository
+            var response = await DocumentRepository.SubirDocumentoAsync(
+                fileData,
+                ArchivoSeleccionado.Name,
+                ArchivoSeleccionado.ContentType,
+                EmpleadoNombre,
+                NumeroEmpleado,
+                DocumentType.Publicacion);
+
+            // Procesar respuesta
+            if (response.Status == "success" && !string.IsNullOrEmpty(response.Url))
+            {
+                UrlDocumento = response.Url;
+                DocumentoId = response.Id;
+                DocumentoPath = response.Path;
+                await JSRuntime.InvokeVoidAsync("console.log", $"🇲🇽 Archivo subido correctamente: {response.Path}");
+                return true;
+            }
+            else
+            {
+                MensajeArchivo = "Error al subir el archivo al Drive";
+                EsErrorArchivo = true;
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            MensajeArchivo = $"Error al subir archivo: {ex.Message}";
+            EsErrorArchivo = true;
+            await JSRuntime.InvokeVoidAsync("console.error", $"🇲🇽 Error subiendo archivo: {ex.Message}");
+            return false;
+        }
+        finally
+        {
+            SubiendoArchivo = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task GuardarPublicacion()
+    {
+        try
+        {
+            Guardando = true;
+            StateHasChanged();
+
+            // Validaciones básicas
+            if (string.IsNullOrWhiteSpace(PublicacionActual.Titulo))
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error: El título es obligatorio");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(PublicacionActual.TipoPublicacion))
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error: Debe seleccionar un tipo de publicación");
+                return;
+            }
+
+            if (PublicacionActual.IdDocente <= 0)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error: No se pudo identificar el docente");
+                return;
+            }
+
+            // Validar enlace si se proporciona
+            if (!string.IsNullOrWhiteSpace(PublicacionActual.Enlace))
+            {
+                if (!Uri.TryCreate(PublicacionActual.Enlace, UriKind.Absolute, out _))
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error: El enlace debe ser una URL válida (ejemplo: https://ejemplo.com)");
+                    return;
+                }
+            }
+
+            // Si hay archivo seleccionado, subirlo primero
+            if (ArchivoSeleccionado != null)
+            {
+                await JSRuntime.InvokeVoidAsync("console.log", "🇲🇽 Subiendo archivo antes de guardar publicación");
+                bool archivoSubido = await SubirArchivoSiHay();
+                if (!archivoSubido)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error: No se pudo subir el archivo. La publicación no se guardará.");
+                    return;
+                }
+            }
+
+            Entidades.Modelos.CurriculumVite.E_Publicacion publicacionGuardada;
+
+            if (IsEditing)
+            {
+                // Actualizar publicación existente
+                var publicacionEntity = new Entidades.Modelos.CurriculumVite.E_Publicacion
+                {
+                    IdPublicacion = PublicacionActual.IdPublicacion,
+                    IdDocente = PublicacionActual.IdDocente,
+                    Titulo = PublicacionActual.Titulo?.Trim(),
+                    TipoPublicacion = PublicacionActual.TipoPublicacion?.Trim(),
+                    Autores = PublicacionActual.Autores?.Trim(),
+                    Fuente = PublicacionActual.Fuente?.Trim(),
+                    Anio = PublicacionActual.Anio,
+                    Enlace = string.IsNullOrWhiteSpace(PublicacionActual.Enlace) ? null : PublicacionActual.Enlace.Trim()
+                };
+
+                await PublicacionServicios.UpdateAsync(publicacionEntity);
+                publicacionGuardada = publicacionEntity;
+                await JSRuntime.InvokeVoidAsync("console.log", "🇲🇽 Publicación actualizada correctamente");
+            }
+            else
+            {
+                // Crear nueva publicación
+                var publicacionEntity = new Entidades.Modelos.CurriculumVite.E_Publicacion
+                {
+                    IdDocente = PublicacionActual.IdDocente,
+                    Titulo = PublicacionActual.Titulo?.Trim(),
+                    TipoPublicacion = PublicacionActual.TipoPublicacion?.Trim(),
+                    Autores = PublicacionActual.Autores?.Trim(),
+                    Fuente = PublicacionActual.Fuente?.Trim(),
+                    Anio = PublicacionActual.Anio,
+                    Enlace = string.IsNullOrWhiteSpace(PublicacionActual.Enlace) ? null : PublicacionActual.Enlace.Trim()
+                };
+
+                await PublicacionServicios.AddAsync(publicacionEntity);
+                publicacionGuardada = publicacionEntity;
+                await JSRuntime.InvokeVoidAsync("console.log", "🇲🇽 Nueva publicación creada correctamente");
+            }
+
+            // Si hay un documento subido, guardarlo en la base de datos
+            if (!string.IsNullOrEmpty(UrlDocumento) && !IsEditing)
+            {
+                try
+                {
+                    await JSRuntime.InvokeVoidAsync("console.log", $"🇲🇽 Intentando guardar documento - IdDocente: {PublicacionActual.IdDocente}, IdPublicacion: {publicacionGuardada.IdPublicacion}, URL: {UrlDocumento}");
+                    
+                    await DocumentoServicios.CreateDocumentoForPublicacionAsync(
+                        PublicacionActual.IdDocente,
+                        publicacionGuardada.IdPublicacion,
+                        $"Documento de evidencia - {PublicacionActual.Titulo}",
+                        UrlDocumento,
+                        $"Documento subido desde: {DocumentoPath}"
+                    );
+                    await JSRuntime.InvokeVoidAsync("console.log", "🇲🇽 Documento de evidencia guardado correctamente en BD");
+                    
+                    // Mostrar mensaje de éxito específico para el documento
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 ¡Éxito completo!\n\n✅ Publicación guardada\n✅ Archivo subido al Drive\n✅ Documento registrado en la base de datos");
+                }
+                catch (Exception docEx)
+                {
+                    await JSRuntime.InvokeVoidAsync("console.error", $"🇲🇽 Error al guardar documento: {docEx.Message}");
+                    await JSRuntime.InvokeVoidAsync("console.error", $"🇲🇽 Stack trace: {docEx.StackTrace}");
+                    
+                    // Dialog específico para error de documento en BD
+                    var mensajeErrorDoc = $"⚠️ ATENCIÓN: La publicación se guardó correctamente, pero hubo un problema al registrar el documento en la base de datos.\n\n";
+                    mensajeErrorDoc += $"El archivo SÍ se subió al Drive correctamente, pero no se pudo asociar a la publicación en la BD.\n\n";
+                    mensajeErrorDoc += $"Error técnico: {docEx.Message}\n\n";
+                    mensajeErrorDoc += $"Puedes intentar agregar el documento manualmente desde la sección de documentos.";
+                    
+                    await JSRuntime.InvokeVoidAsync("alert", mensajeErrorDoc);
+                }
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("console.log", $"🇲🇽 No se guardará documento - UrlDocumento: '{UrlDocumento}', IsEditing: {IsEditing}");
+                
+                // Si no hay documento, solo mostrar éxito de publicación
+                await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Publicación guardada exitosamente");
+            }
+
+            // Notificar al componente padre que se guardó la publicación
+            await OnPublicacionGuardada.InvokeAsync(PublicacionActual);
+            
+            // Cerrar modal usando método más compatible
+            await CerrarModal();
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", $"🇲🇽 Error completo: {ex}");
+            
+            // Mostrar error específico según el tipo de excepción
+            var mensajeError = ex.Message;
+            if (ex.InnerException != null)
+            {
+                mensajeError += $"\n\nDetalle: {ex.InnerException.Message}";
+            }
+            
+            if (mensajeError.Contains("Invalid object name") || mensajeError.Contains("Invalid column name"))
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error de base de datos: Hay un problema con la estructura de la base de datos. Es necesario ejecutar migraciones o verificar la configuración de Entity Framework.\n\nError técnico: " + mensajeError);
+            }
+            else if (mensajeError.Contains("duplicate key") || mensajeError.Contains("PRIMARY KEY"))
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error: Ya existe una publicación con esos datos");
+            }
+            else if (mensajeError.Contains("FK_") || mensajeError.Contains("FOREIGN KEY"))
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error: Hay un problema con las relaciones de datos. Verifique que el docente existe en el sistema");
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error al guardar la publicación:\n\n{mensajeError}");
+            }
+        }
+        finally
+        {
+            Guardando = false;
+            StateHasChanged();
+        }
+    }
+
+    public async Task AbrirModal(PublicacionDTO? publicacion = null, int idDocente = 0)
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", $"🇲🇽 Abriendo modal - Publicación: {publicacion?.IdPublicacion}, IdDocente: {idDocente}");
+            
+            if (publicacion != null)
+            {
+                PublicacionActual = new PublicacionDTO
+                {
+                    IdPublicacion = publicacion.IdPublicacion,
+                    IdDocente = publicacion.IdDocente,
+                    Titulo = publicacion.Titulo,
+                    TipoPublicacion = publicacion.TipoPublicacion,
+                    Autores = publicacion.Autores,
+                    Fuente = publicacion.Fuente,
+                    Anio = publicacion.Anio,
+                    Enlace = publicacion.Enlace
+                };
+                IsEditing = true;
+                await JSRuntime.InvokeVoidAsync("console.log", "🇲🇽 Modo edición activado");
+            }
+            else
+            {
+                if (idDocente <= 0)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "🇲🇽 Error: No se pudo identificar el docente para crear la publicación");
+                    return;
+                }
+                
+                PublicacionActual = new PublicacionDTO 
+                { 
+                    IdDocente = idDocente,
+                    Titulo = "",
+                    TipoPublicacion = "",
+                    Autores = "",
+                    Fuente = "",
+                    Enlace = ""
+                };
+                IsEditing = false;
+                await JSRuntime.InvokeVoidAsync("console.log", "🇲🇽 Modo creación activado");
+            }
+
+            // Limpiar estado del archivo
+            ArchivoSeleccionado = null;
+            MensajeArchivo = "";
+            EsErrorArchivo = false;
+            UrlDocumento = "";
+            DocumentoId = "";
+            DocumentoPath = "";
+            
+            // Limpiar estado de guardado
+            Guardando = false;
+            SubiendoArchivo = false;
+            
+            StateHasChanged();
+
+            // Usar método simple para abrir el modal
+            await JSRuntime.InvokeVoidAsync("console.log", "🇲🇽 Intentando abrir modal Bootstrap");
+            
+            // Método simplificado para abrir el modal
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                (function() {
+                    try {
+                        const modalElement = document.getElementById('modalPublicacion');
+                        if (modalElement) {
+                            if (window.bootstrap && window.bootstrap.Modal) {
+                                const modal = new bootstrap.Modal(modalElement);
+                                modal.show();
+                                console.log('🇲🇽 Modal abierto con Bootstrap 5');
+                            } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                                $(modalElement).modal('show');
+                                console.log('🇲🇽 Modal abierto con jQuery Bootstrap');
+                            } else {
+                                modalElement.style.display = 'block';
+                                modalElement.classList.add('show');
+                                modalElement.classList.add('d-block');
+                                console.log('🇲🇽 Modal abierto con CSS directo');
+                            }
+                        } else {
+                            console.error('🇲🇽 No se encontró el elemento modal');
+                        }
+                    } catch (error) {
+                        console.error('🇲🇽 Error al abrir modal:', error);
+                    }
+                })();
+            ");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", $"🇲🇽 Error al abrir modal: {ex.Message}");
+            await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Error al abrir el formulario de publicación: {ex.Message}");
+        }
+    }
+
+    private async Task CerrarModal()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                (function() {
+                    try {
+                        const modalElement = document.getElementById('modalPublicacion');
+                        if (modalElement) {
+                            if (window.bootstrap && window.bootstrap.Modal) {
+                                const modal = bootstrap.Modal.getInstance(modalElement);
+                                if (modal) {
+                                    modal.hide();
+                                }
+                            } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                                $(modalElement).modal('hide');
+                            } else {
+                                modalElement.style.display = 'none';
+                                modalElement.classList.remove('show');
+                                modalElement.classList.remove('d-block');
+                                const backdrop = document.querySelector('.modal-backdrop');
+                                if (backdrop) {
+                                    backdrop.remove();
+                                }
+                            }
+                            console.log('🇲🇽 Modal cerrado correctamente');
+                        }
+                    } catch (error) {
+                        console.error('🇲🇽 Error al cerrar modal:', error);
+                    }
+                })();
+            ");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", $"🇲🇽 Error al cerrar modal: {ex.Message}");
+        }
+    }
+} 
