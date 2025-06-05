@@ -29,21 +29,32 @@
         <div class="bg-white border-bottom" style="padding: 1.5rem 2rem;">
             <nav aria-label="breadcrumb" class="mb-2">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item">
-                        <a href="/CV/Docentes" class="text-decoration-none" style="color: #2D6B3C;">
-                            <i class="fas fa-chalkboard-teacher me-1"></i>Docentes
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <span style="color: #6c757d;">@nombreCompletoDocente</span>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/CV/Docentes/@IdDocente/Contactos" class="text-decoration-none" style="color: #2D6B3C;">Contactos</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/CV/Docentes/@IdDocente/Publicaciones" class="text-decoration-none" style="color: #2D6B3C;">Publicaciones</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page" style="color: #2D6B3C;">Educación</li>
+                    @if (FromProfile)
+                    {
+                        <li class="breadcrumb-item">
+                            <button type="button" class="btn btn-link p-0" @onclick="VolverAPerfilDocente" style="color: #2D6B3C; text-decoration: none;">
+                                <i class="fas fa-arrow-left me-1"></i>Volver al Perfil
+                            </button>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page" style="color: #2D6B3C;">
+                            Educación - @nombreCompletoDocente
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="breadcrumb-item">
+                            <a href="/CV/Docentes" class="text-decoration-none" style="color: #2D6B3C;">
+                                <i class="fas fa-chalkboard-teacher me-1"></i>Docentes
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <span style="color: #6c757d;">@nombreCompletoDocente</span>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/CV/Docentes/@IdDocente/Publicaciones" class="text-decoration-none" style="color: #2D6B3C;">Publicaciones</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page" style="color: #2D6B3C;">Educación</li>
+                    }
                 </ol>
             </nav>
             <h1 class="h2 mb-1" style="color: #2D6B3C; font-weight: 600;">
@@ -131,35 +142,6 @@
                 </div>
             </div>
 
-            <!-- Resumen de filtros aplicados -->
-            @if (!string.IsNullOrEmpty(FiltroTexto) || !string.IsNullOrEmpty(FiltroNivel))
-            {
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="d-flex align-items-center gap-2">
-                            <small class="text-muted">Filtros aplicados:</small>
-                            @if (!string.IsNullOrEmpty(FiltroTexto))
-                            {
-                                <span class="badge bg-light text-dark border">
-                                    Texto: "@FiltroTexto" 
-                                    <button type="button" class="btn-close btn-close-sm ms-1" @onclick="@(() => { FiltroTexto = string.Empty; FiltrarEducacion(); })"></button>
-                                </span>
-                            }
-                            @if (!string.IsNullOrEmpty(FiltroNivel))
-                            {
-                                <span class="badge bg-light text-dark border">
-                                    Nivel: @FiltroNivel 
-                                    <button type="button" class="btn-close btn-close-sm ms-1" @onclick="@(() => { FiltroNivel = string.Empty; FiltrarEducacion(); })"></button>
-                                </span>
-                            }
-                            <button class="btn btn-sm btn-outline-secondary" @onclick="LimpiarFiltros">
-                                <i class="fas fa-times"></i> Limpiar todo
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            }
-
             <!-- Lista de educación -->
             @if (!ListaEducacion.Any())
             {
@@ -193,15 +175,6 @@
             }
             else
             {
-                <!-- Contador de resultados -->
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <small class="text-muted">
-                            Mostrando @EducacionFiltrada.Count() de @ListaEducacion.Count() registros
-                        </small>
-                    </div>
-                </div>
-
                 <!-- Grid de educación -->
                 <div class="row">
                     @foreach (var educacion in EducacionFiltrada.OrderByDescending(e => e.AnioFin ?? DateTime.Now.Year))
@@ -288,25 +261,28 @@
             }
 
             <!-- Navegación entre secciones -->
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <button class="btn btn-outline-secondary" @onclick="VolverAPublicaciones">
-                                    <i class="fas fa-arrow-left"></i> Volver a Publicaciones
-                                </button>
-                                <div class="text-center">
-                                    <small class="text-muted">Sección 3 de 7 - Gestión de Educación</small>
+            @if (!FromProfile)
+            {
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-outline-secondary" @onclick="VolverAPublicaciones">
+                                        <i class="fas fa-arrow-left"></i> Volver a Publicaciones
+                                    </button>
+                                    <div class="text-center">
+                                        <small class="text-muted">Sección 3 de 7 - Gestión de Educación</small>
+                                    </div>
+                                    <button class="btn" style="background-color: #2D6B3C; color: white;" @onclick="ContinuarAExperiencia">
+                                        Continuar a Experiencia <i class="fas fa-arrow-right"></i>
+                                    </button>
                                 </div>
-                                <button class="btn" style="background-color: #2D6B3C; color: white;" @onclick="ContinuarAProyectos">
-                                    Continuar a Experiencia <i class="fas fa-arrow-right"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     }
 </div>
@@ -330,6 +306,9 @@
     private string nombreCompletoDocente = "";
     private string numeroEmpleado = "";
 
+    // Detectar si viene del perfil del docente
+    private bool FromProfile = false;
+
     // Listas y filtros
     private List<EducacionDTO> ListaEducacion = new();
     private List<EducacionDTO> EducacionFiltrada = new();
@@ -351,6 +330,10 @@
     {
         try
         {
+            // Detectar si viene del perfil del docente
+            var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+            FromProfile = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).ContainsKey("fromProfile");
+
             await CargarDatosDocente();
             await CargarEducacion();
             await CargarConteoDocumentos();
@@ -442,21 +425,17 @@
     {
         try
         {
-            await JSRuntime.InvokeVoidAsync("console.log", $"Abriendo modal nueva educación para docente: {IdDocente}");
-            
             if (ModalEducacionRef != null)
             {
                 await ModalEducacionRef.AbrirModal(null, IdDocente);
             }
             else
             {
-                await JSRuntime.InvokeVoidAsync("console.error", "ModalEducacionRef es null");
                 await JSRuntime.InvokeVoidAsync("alert", "Error: No se pudo acceder al formulario de educación");
             }
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.error", $"Error al abrir modal nueva educación: {ex.Message}");
             await JSRuntime.InvokeVoidAsync("alert", $"Error al abrir el formulario de nueva formación: {ex.Message}");
         }
     }
@@ -465,21 +444,17 @@
     {
         try
         {
-            await JSRuntime.InvokeVoidAsync("console.log", $"Abriendo modal editar educación ID: {educacion.IdEducacion}");
-            
             if (ModalEducacionRef != null)
             {
                 await ModalEducacionRef.AbrirModal(educacion);
             }
             else
             {
-                await JSRuntime.InvokeVoidAsync("console.error", "ModalEducacionRef es null");
                 await JSRuntime.InvokeVoidAsync("alert", "Error: No se pudo acceder al formulario de educación");
             }
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.error", $"Error al abrir modal editar: {ex.Message}");
             await JSRuntime.InvokeVoidAsync("alert", $"Error al abrir el formulario de edición: {ex.Message}");
         }
     }
@@ -488,14 +463,12 @@
     {
         try
         {
-            await JSRuntime.InvokeVoidAsync("console.log", "Recargando datos después de guardar educación");
             await CargarEducacion();
             await CargarConteoDocumentos();
             StateHasChanged();
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.error", $"Error al recargar datos: {ex.Message}");
             await JSRuntime.InvokeVoidAsync("alert", $"La formación se guardó, pero hubo un error al recargar la lista: {ex.Message}");
         }
     }
@@ -541,9 +514,14 @@
         NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Publicaciones");
     }
 
-    private void ContinuarAProyectos()
+    private void ContinuarAExperiencia()
     {
         NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Experiencia");
+    }
+
+    private void VolverAPerfilDocente()
+    {
+        NavigationManager.NavigateTo($"/CV/Docentes/Ver/{IdDocente}");
     }
 }
 

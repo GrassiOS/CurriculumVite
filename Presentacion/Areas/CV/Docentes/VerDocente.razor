@@ -569,8 +569,15 @@
 
     private void IrASeccion(string seccion)
     {
-        // TODO: Implementar navegación a secciones específicas del CV
-        JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Navegación a la sección '{seccion}' estará disponible próximamente");
+        var ruta = seccion switch
+        {
+            "publicaciones" => $"/CV/Docentes/{IdDocente}/Publicaciones?fromProfile=true",
+            "educacion" => $"/CV/Docentes/{IdDocente}/Educacion?fromProfile=true", 
+            "experiencia" => $"/CV/Docentes/{IdDocente}/Experiencia?fromProfile=true",
+            "proyectos" => $"/CV/Docentes/{IdDocente}/Proyectos?fromProfile=true",
+            _ => "/CV/Docentes"
+        };
+        Navigation.NavigateTo(ruta);
     }
 
     private void ImprimirCV()

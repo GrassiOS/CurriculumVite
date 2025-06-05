@@ -29,18 +29,32 @@
         <div class="bg-white border-bottom" style="padding: 1.5rem 2rem;">
             <nav aria-label="breadcrumb" class="mb-2">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item">
-                        <a href="/CV/Docentes" class="text-decoration-none" style="color: #2D6B3C;">
-                            <i class="fas fa-chalkboard-teacher me-1"></i>Docentes
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <span style="color: #6c757d;">@nombreCompletoDocente</span>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/CV/Docentes/@IdDocente/Contactos" class="text-decoration-none" style="color: #2D6B3C;">Contactos</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page" style="color: #2D6B3C;">Publicaciones</li>
+                    @if (FromProfile)
+                    {
+                        <li class="breadcrumb-item">
+                            <button type="button" class="btn btn-link p-0" @onclick="VolverAPerfilDocente" style="color: #2D6B3C; text-decoration: none;">
+                                <i class="fas fa-arrow-left me-1"></i>Volver al Perfil
+                            </button>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page" style="color: #2D6B3C;">
+                            Publicaciones - @nombreCompletoDocente
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="breadcrumb-item">
+                            <a href="/CV/Docentes" class="text-decoration-none" style="color: #2D6B3C;">
+                                <i class="fas fa-chalkboard-teacher me-1"></i>Docentes
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <span style="color: #6c757d;">@nombreCompletoDocente</span>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/CV/Docentes/@IdDocente/Contactos" class="text-decoration-none" style="color: #2D6B3C;">Contactos</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page" style="color: #2D6B3C;">Publicaciones</li>
+                    }
                 </ol>
             </nav>
             <h1 class="h2 mb-1" style="color: #2D6B3C; font-weight: 600;">
@@ -276,25 +290,28 @@
             }
 
             <!-- Botones de navegación -->
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <button class="btn btn-outline-secondary" @onclick="VolverAContactos">
-                                    <i class="fas fa-arrow-left"></i> Volver a Contactos
-                                </button>
-                                <div class="text-center">
-                                    <small class="text-muted">Paso 2 de 4 - Publicaciones</small>
+            @if (!FromProfile)
+            {
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-outline-secondary" @onclick="VolverAContactos">
+                                        <i class="fas fa-arrow-left"></i> Volver a Contactos
+                                    </button>
+                                    <div class="text-center">
+                                        <small class="text-muted">Paso 2 de 4 - Publicaciones</small>
+                                    </div>
+                                    <button class="btn" style="background-color: #4BB463; color: white;" @onclick="ContinuarAProyectos">
+                                        Continuar a Educación <i class="fas fa-arrow-right"></i>
+                                    </button>
                                 </div>
-                                <button class="btn" style="background-color: #4BB463; color: white;" @onclick="ContinuarAProyectos">
-                                    Continuar a Educación <i class="fas fa-arrow-right"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     }
 </div>
@@ -343,6 +360,9 @@
     
     private ModalPublicacion? ModalPublicacionRef;
     
+    // Detectar si viene del perfil del docente
+    private bool FromProfile = false;
+    
     private readonly string[] TiposPublicacion = {
         "Artículo de Revista",
         "Libro",
@@ -357,6 +377,10 @@
     {
         try
         {
+            // Detectar si viene del perfil del docente
+            var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+            FromProfile = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).ContainsKey("fromProfile");
+
             await CargarDatosDocente();
             await CargarPublicaciones();
             await CargarConteoDocumentos();
@@ -549,5 +573,10 @@
     private void ContinuarAProyectos()
     {
         NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Educacion");
+    }
+
+    private void VolverAPerfilDocente()
+    {
+        NavigationManager.NavigateTo($"/CV/Docentes/Ver/{IdDocente}");
     }
 } 

@@ -1,0 +1,348 @@
+@using Entidades.DTO.CurriculumVite
+@using Entidades.Utilidades
+@using Entidades.Generales
+@using Servicios.IRepositorios.CurriculumVite
+@using Servicios.IRepositorios
+@using Entidades.Modelos.CurriculumVite
+@inject ISRepositorioProyecto ProyectoServicios
+@inject ISRepositorioDocumento DocumentoServicios
+@inject IDocumentRepository DocumentRepository
+@inject IJSRuntime JSRuntime
+
+<!-- Modal -->
+<div class="modal fade" id="modalProyecto" tabindex="-1" aria-labelledby="modalProyectoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2D6B3C; color: white;">
+                <h5 class="modal-title" id="modalProyectoLabel">
+                    <i class="fas fa-project-diagram"></i> 
+                    @(EsEdicion ? "Editar Proyecto" : "Agregar Proyecto")
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <EditForm Model="ProyectoActual" OnValidSubmit="GuardarProyecto">
+                <DataAnnotationsValidator />
+                
+                <div class="modal-body">
+                    @if (Guardando)
+                    {
+                        <div class="text-center py-3">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="visually-hidden">Guardando...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Guardando proyecto...</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <!-- Información Básica -->
+                            <div class="col-12 mb-4">
+                                <h6 class="text-muted mb-3">
+                                    <i class="fas fa-info-circle"></i> Información del Proyecto
+                                </h6>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Título del Proyecto *</label>
+                                    <InputTextArea @bind-Value="ProyectoActual.Titulo" class="form-control" 
+                                                   rows="2" placeholder="Ej: Desarrollo de Software Educativo para la Enseñanza de Matemáticas" />
+                                    <ValidationMessage For="@(() => ProyectoActual.Titulo)" class="text-danger small" />
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Rol en el Proyecto *</label>
+                                        <InputSelect @bind-Value="ProyectoActual.Rol" class="form-select">
+                                            <option value="">Seleccione un rol</option>
+                                            <option value="Investigador Principal">Investigador Principal</option>
+                                            <option value="Co-Investigador">Co-Investigador</option>
+                                            <option value="Colaborador">Colaborador</option>
+                                            <option value="Asesor">Asesor</option>
+                                            <option value="Coordinador">Coordinador</option>
+                                            <option value="Participante">Participante</option>
+                                            <option value="Director">Director</option>
+                                            <option value="Subdirector">Subdirector</option>
+                                        </InputSelect>
+                                        <ValidationMessage For="@(() => ProyectoActual.Rol)" class="text-danger small" />
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Institución *</label>
+                                        <InputText @bind-Value="ProyectoActual.Institucion" class="form-control" 
+                                                   placeholder="Ej: Universidad Autónoma de Baja California" />
+                                        <ValidationMessage For="@(() => ProyectoActual.Institucion)" class="text-danger small" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Financiamiento -->
+                            <div class="col-12 mb-4">
+                                <h6 class="text-muted mb-3">
+                                    <i class="fas fa-dollar-sign"></i> Financiamiento
+                                </h6>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Fuente de Financiamiento</label>
+                                    <InputText @bind-Value="ProyectoActual.Financiamiento" class="form-control" 
+                                               placeholder="Ej: CONACYT, UABC, Fondos Propios, etc." />
+                                    <div class="form-text">Opcional: Especifica quién financia el proyecto</div>
+                                </div>
+                            </div>
+
+                            <!-- Período -->
+                            <div class="col-12 mb-4">
+                                <h6 class="text-muted mb-3">
+                                    <i class="fas fa-calendar"></i> Período del Proyecto
+                                </h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Año de Inicio *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                            <InputNumber @bind-Value="ProyectoActual.PeriodoInicio" class="form-control" 
+                                                        min="1900" max="@DateTime.Now.Year" placeholder="2020" />
+                                        </div>
+                                        <ValidationMessage For="@(() => ProyectoActual.PeriodoInicio)" class="text-danger small" />
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Año de Finalización *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                            <InputNumber @bind-Value="ProyectoActual.PeriodoFin" class="form-control" 
+                                                        min="@(ProyectoActual.PeriodoInicio ?? 1900)" max="2100" placeholder="2023" />
+                                        </div>
+                                        <ValidationMessage For="@(() => ProyectoActual.PeriodoFin)" class="text-danger small" />
+                                        <div class="form-text">Para proyectos en curso, use el año estimado de finalización</div>
+                                    </div>
+                                </div>
+                                
+                                @if (ProyectoActual.PeriodoInicio.HasValue && ProyectoActual.PeriodoFin > 0)
+                                {
+                                    <div class="alert alert-info mt-2">
+                                        <i class="fas fa-info-circle"></i>
+                                        <strong>Duración:</strong> 
+                                        @{
+                                            var duracion = ProyectoActual.PeriodoFin - (ProyectoActual.PeriodoInicio ?? 0) + 1;
+                                        }
+                                        @duracion año@(duracion > 1 ? "s" : "")
+                                        @if (ProyectoActual.PeriodoFin >= DateTime.Now.Year)
+                                        {
+                                            <span class="badge bg-success ms-2">Proyecto Activo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary ms-2">Proyecto Finalizado</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" disabled="@Guardando">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-success" disabled="@Guardando">
+                        @if (Guardando)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                        }
+                        else
+                        {
+                            <i class="fas fa-save"></i>
+                        }
+                        @(EsEdicion ? "Actualizar" : "Guardar") Proyecto
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback OnProyectoGuardado { get; set; }
+    [Parameter] public int IdDocente { get; set; }
+    
+    private ProyectoDTO ProyectoActual = new();
+    private bool EsEdicion = false;
+    private bool Guardando = false;
+
+    public async Task AbrirModal(ProyectoDTO? proyecto = null, int idDocente = 0)
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", $"Abriendo modal proyecto - Proyecto: {proyecto?.IdProyecto}, IdDocente: {idDocente}");
+            
+            if (proyecto != null)
+            {
+                EsEdicion = true;
+                ProyectoActual = new ProyectoDTO 
+                {
+                    IdProyecto = proyecto.IdProyecto,
+                    IdDocente = proyecto.IdDocente,
+                    Titulo = proyecto.Titulo,
+                    Rol = proyecto.Rol,
+                    Institucion = proyecto.Institucion,
+                    Financiamiento = proyecto.Financiamiento,
+                    PeriodoInicio = proyecto.PeriodoInicio,
+                    PeriodoFin = proyecto.PeriodoFin
+                };
+                await JSRuntime.InvokeVoidAsync("console.log", "Modo edición activado");
+            }
+            else
+            {
+                if (idDocente <= 0)
+                {
+                    idDocente = IdDocente;
+                }
+                
+                if (idDocente <= 0)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "Error: No se pudo identificar el docente para crear el proyecto");
+                    return;
+                }
+                
+                EsEdicion = false;
+                ProyectoActual = new ProyectoDTO 
+                { 
+                    IdDocente = idDocente,
+                    PeriodoInicio = DateTime.Now.Year,
+                    PeriodoFin = DateTime.Now.Year + 1
+                };
+                await JSRuntime.InvokeVoidAsync("console.log", "Modo creación activado");
+            }
+            
+            // Limpiar estado de guardado
+            Guardando = false;
+            
+            StateHasChanged();
+
+            // Abrir modal con implementación robusta
+            await JSRuntime.InvokeVoidAsync("console.log", "Intentando abrir modal Bootstrap");
+            
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                (function() {
+                    try {
+                        const modalElement = document.getElementById('modalProyecto');
+                        if (modalElement) {
+                            if (window.bootstrap && window.bootstrap.Modal) {
+                                const modal = new bootstrap.Modal(modalElement);
+                                modal.show();
+                                console.log('Modal proyecto abierto con Bootstrap 5');
+                            } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                                $(modalElement).modal('show');
+                                console.log('Modal proyecto abierto con jQuery Bootstrap');
+                            } else {
+                                modalElement.style.display = 'block';
+                                modalElement.classList.add('show');
+                                modalElement.classList.add('d-block');
+                                console.log('Modal proyecto abierto con CSS directo');
+                            }
+                        } else {
+                            console.error('No se encontró el elemento modal de proyecto');
+                        }
+                    } catch (error) {
+                        console.error('Error al abrir modal de proyecto:', error);
+                    }
+                })();
+            ");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", $"Error al abrir modal: {ex.Message}");
+            await JSRuntime.InvokeVoidAsync("alert", $"Error al abrir el formulario de proyecto: {ex.Message}");
+        }
+    }
+
+    private async Task GuardarProyecto()
+    {
+        try
+        {
+            Guardando = true;
+            StateHasChanged();
+
+            // Mapear DTO a entidad
+            var proyecto = new E_Proyecto
+            {
+                IdProyecto = ProyectoActual.IdProyecto,
+                IdDocente = ProyectoActual.IdDocente,
+                Titulo = ProyectoActual.Titulo,
+                Rol = ProyectoActual.Rol,
+                Institucion = ProyectoActual.Institucion,
+                Financiamiento = ProyectoActual.Financiamiento,
+                PeriodoInicio = ProyectoActual.PeriodoInicio,
+                PeriodoFin = ProyectoActual.PeriodoFin
+            };
+            
+            if (EsEdicion)
+            {
+                await ProyectoServicios.UpdateAsync(proyecto);
+            }
+            else
+            {
+                await ProyectoServicios.AddAsync(proyecto);
+            }
+
+            await CerrarModal();
+            await JSRuntime.InvokeVoidAsync("alert", $"Proyecto {(EsEdicion ? "actualizado" : "agregado")} correctamente");
+            await OnProyectoGuardado.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Error al guardar: {ex.Message}");
+        }
+        finally
+        {
+            Guardando = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task CerrarModal()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                (function() {
+                    try {
+                        const modalElement = document.getElementById('modalProyecto');
+                        if (modalElement) {
+                            if (window.bootstrap && window.bootstrap.Modal) {
+                                const modal = bootstrap.Modal.getInstance(modalElement);
+                                if (modal) {
+                                    modal.hide();
+                                }
+                            } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                                $(modalElement).modal('hide');
+                            } else {
+                                modalElement.style.display = 'none';
+                                modalElement.classList.remove('show');
+                                modalElement.classList.remove('d-block');
+                                const backdrop = document.querySelector('.modal-backdrop');
+                                if (backdrop) {
+                                    backdrop.remove();
+                                }
+                            }
+                            console.log('Modal proyecto cerrado correctamente');
+                        }
+                    } catch (error) {
+                        console.error('Error al cerrar modal proyecto:', error);
+                    }
+                })();
+            ");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", $"Error al cerrar modal: {ex.Message}");
+        }
+    }
+} 
