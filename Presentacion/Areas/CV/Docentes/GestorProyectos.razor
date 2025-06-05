@@ -231,6 +231,9 @@
                                                 <button class="btn btn-outline-primary btn-sm" @onclick="() => AbrirModalEditar(proyecto)">
                                                     <i class="fas fa-edit"></i> Editar
                                                 </button>
+                                                <button class="btn btn-outline-info btn-sm" @onclick="() => VerDocumentosProyecto(proyecto)">
+                                                    <i class="fas fa-file-alt"></i> Documentos
+                                                </button>
                                                 <button class="btn btn-outline-danger btn-sm" @onclick="() => ConfirmarEliminar(proyecto)">
                                                     <i class="fas fa-trash"></i> Eliminar
                                                 </button>
@@ -511,6 +514,11 @@
     private void VolverAPerfilDocente()
     {
         NavigationManager.NavigateTo($"/CV/Docentes/Ver/{IdDocente}");
+    }
+
+    private void VerDocumentosProyecto(ProyectoDTO proyecto)
+    {
+        NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Proyectos/{proyecto.IdProyecto}/Documentos");
     }
 }
 

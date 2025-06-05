@@ -222,6 +222,9 @@
                                                 <button class="btn btn-outline-primary btn-sm" @onclick="() => AbrirModalEditar(experiencia)">
                                                     <i class="fas fa-edit"></i> Editar
                                                 </button>
+                                                <button class="btn btn-outline-info btn-sm" @onclick="() => VerDocumentosExperiencia(experiencia)">
+                                                    <i class="fas fa-file-alt"></i> Documentos
+                                                </button>
                                                 <button class="btn btn-outline-danger btn-sm" @onclick="() => ConfirmarEliminar(experiencia)">
                                                     <i class="fas fa-trash"></i> Eliminar
                                                 </button>
@@ -498,6 +501,13 @@
     private void VolverAPerfilDocente()
     {
         NavigationManager.NavigateTo($"/CV/Docentes/Ver/{IdDocente}");
+    }
+
+    private async Task VerDocumentosExperiencia(ExperienciaDTO experiencia)
+    {
+        // NOTA: Aún no implementado en la base de datos - necesita migración para agregar IdExperiencia a la tabla Documento
+        await JSRuntime.InvokeVoidAsync("alert", $"🇲🇽 Funcionalidad de documentos para experiencia en desarrollo. Necesita migración de base de datos para agregar IdExperiencia a la tabla CV.Documento");
+        // NavigationManager.NavigateTo($"/CV/Docentes/{IdDocente}/Experiencia/{experiencia.IdExperiencia}/Documentos");
     }
 }
 
