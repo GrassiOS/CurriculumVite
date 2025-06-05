@@ -118,134 +118,75 @@
                 <div class="col-md-9">
                     <div class="bg-white rounded shadow-sm overflow-hidden">
                         <div class="p-4">
-                            <div class="row">
-                                <!-- Información del docente -->
-                                <div class="col-md-8">
-                                    <h5 class="mb-3" style="color: #2D6B3C;">Semblanza</h5>
-                                    <p class="text-justify">
-                                        @if (!string.IsNullOrEmpty(docente.SembalzaDocente))
+                            <!-- Información del docente -->
+                            <h5 class="mb-3" style="color: #2D6B3C;">Semblanza</h5>
+                            <p class="text-justify">
+                                @if (!string.IsNullOrEmpty(docente.SembalzaDocente))
+                                {
+                                    @docente.SembalzaDocente
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        @docente.NombreCompleto es @(docente.NombreCategoria?.ToLower() ?? "docente") 
+                                        en @(docente.NombreCarrera ?? "la institución") con @(docente.AniosEnUABC) años de experiencia.
+                                        @if (!string.IsNullOrEmpty(docente.NombreEscolaridad))
                                         {
-                                            @docente.SembalzaDocente
+                                            <text> Cuenta con @docente.NombreEscolaridad.ToLower()</text>
+                                            @if (!string.IsNullOrEmpty(docente.UniversidadLicenciatura))
+                                            {
+                                                <text> de @docente.UniversidadLicenciatura</text>
+                                            }
+                                            <text>.</text>
                                         }
-                                        else
-                                        {
-                                            <span class="text-muted">
-                                                @docente.NombreCompleto es @(docente.NombreCategoria?.ToLower() ?? "docente") 
-                                                en @(docente.NombreCarrera ?? "la institución") con @(docente.AniosEnUABC) años de experiencia.
-                                                @if (!string.IsNullOrEmpty(docente.NombreEscolaridad))
-                                                {
-                                                    <text> Cuenta con @docente.NombreEscolaridad.ToLower()</text>
-                                                    @if (!string.IsNullOrEmpty(docente.UniversidadLicenciatura))
-                                                    {
-                                                        <text> de @docente.UniversidadLicenciatura</text>
-                                                    }
-                                                    <text>.</text>
-                                                }
-                                            </span>
-                                        }
+                                    </span>
+                                }
+                            </p>
+                            
+                            <h6 class="mb-3 mt-4" style="color: #2D6B3C;">Información Institucional</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <i class="fas fa-id-card text-primary me-2"></i>
+                                        <strong>No. Empleado:</strong> @docente.NumeroEmpleado
                                     </p>
-                                    
-                                    <h6 class="mb-3 mt-4" style="color: #2D6B3C;">Información Institucional</h6>
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <p class="mb-2">
-                                                <i class="fas fa-id-card text-primary me-2"></i>
-                                                <strong>No. Empleado:</strong> @docente.NumeroEmpleado
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p class="mb-2">
-                                                <i class="fas fa-university text-primary me-2"></i>
-                                                <strong>Carrera:</strong> @(docente.AliasCarrera ?? docente.NombreCarrera)
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p class="mb-2">
-                                                <i class="fas fa-user-tie text-primary me-2"></i>
-                                                <strong>Categoría:</strong> @docente.NombreCategoria
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p class="mb-2">
-                                                <i class="fas fa-briefcase text-primary me-2"></i>
-                                                <strong>Nombramiento:</strong> @docente.NombreNombramiento
-                                            </p>
-                                        </div>
-                                        @if (docente.FechaIngreso.HasValue)
-                                        {
-                                            <div class="col-md-6">
-                                                <p class="mb-2">
-                                                    <i class="fas fa-calendar text-primary me-2"></i>
-                                                    <strong>Fecha Ingreso:</strong> @docente.FechaIngreso.Value.ToString("MMMM yyyy")
-                                                </p>
-                                            </div>
-                                        }
-                                        @if (!string.IsNullOrEmpty(docente.Extension))
-                                        {
-                                            <div class="col-md-6">
-                                                <p class="mb-2">
-                                                    <i class="fas fa-phone-alt text-primary me-2"></i>
-                                                    <strong>Extensión:</strong> @docente.Extension
-                                                </p>
-                                            </div>
-                                        }
-                                    </div>
                                 </div>
-
-                                <!-- Estadísticas -->
-                                <div class="col-md-4">
-                                    <h5 class="mb-3" style="color: #2D6B3C;">Estadísticas del CV</h5>
-                                    <div class="row">
-                                        <div class="col-6 mb-3">
-                                            <div class="card text-white" style="background-color: #4BB463;">
-                                                <div class="card-body p-3 text-center">
-                                                    <h6 class="mb-1">Educación</h6>
-                                                    <h4 class="mb-0">@docente.CantidadEducaciones</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 mb-3">
-                                            <div class="card bg-success text-white">
-                                                <div class="card-body p-3 text-center">
-                                                    <h6 class="mb-1">Experiencia</h6>
-                                                    <h4 class="mb-0">@docente.CantidadExperiencias</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 mb-3">
-                                            <div class="card bg-info text-white">
-                                                <div class="card-body p-3 text-center">
-                                                    <h6 class="mb-1">Publicaciones</h6>
-                                                    <h4 class="mb-0">@docente.CantidadPublicaciones</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 mb-3">
-                                            <div class="card text-white" style="background-color: #F4BF3A;">
-                                                <div class="card-body p-3 text-center">
-                                                    <h6 class="mb-1">Proyectos</h6>
-                                                    <h4 class="mb-0">@docente.CantidadProyectos</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 mb-3">
-                                            <div class="card bg-secondary text-white">
-                                                <div class="card-body p-3 text-center">
-                                                    <h6 class="mb-1">Tesis</h6>
-                                                    <h4 class="mb-0">@docente.CantidadTesisDirigidas</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 mb-3">
-                                            <div class="card bg-dark text-white">
-                                                <div class="card-body p-3 text-center">
-                                                    <h6 class="mb-1">Distinciones</h6>
-                                                    <h4 class="mb-0">@docente.CantidadDistinciones</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <i class="fas fa-university text-primary me-2"></i>
+                                        <strong>Carrera:</strong> @(docente.AliasCarrera ?? docente.NombreCarrera)
+                                    </p>
                                 </div>
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <i class="fas fa-user-tie text-primary me-2"></i>
+                                        <strong>Categoría:</strong> @docente.NombreCategoria
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <i class="fas fa-briefcase text-primary me-2"></i>
+                                        <strong>Nombramiento:</strong> @docente.NombreNombramiento
+                                    </p>
+                                </div>
+                                @if (docente.FechaIngreso.HasValue)
+                                {
+                                    <div class="col-md-6">
+                                        <p class="mb-2">
+                                            <i class="fas fa-calendar text-primary me-2"></i>
+                                            <strong>Fecha Ingreso:</strong> @docente.FechaIngreso.Value.ToString("MMMM yyyy")
+                                        </p>
+                                    </div>
+                                }
+                                @if (!string.IsNullOrEmpty(docente.Extension))
+                                {
+                                    <div class="col-md-6">
+                                        <p class="mb-2">
+                                            <i class="fas fa-phone-alt text-primary me-2"></i>
+                                            <strong>Extensión:</strong> @docente.Extension
+                                        </p>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -254,34 +195,34 @@
 
             <!-- Sección de navegación rápida -->
             <div class="bg-white rounded shadow-sm p-4">
-                <h5 class="mb-3" style="color: #2D6B3C;">Secciones del Currículum</h5>
+                <h5 class="mb-3" style="color: #2D6B3C;">Gestión del Currículum</h5>
                 <div class="row g-3">
                     <div class="col-md-3">
                         <button class="btn btn-outline-primary w-100 h-100" @onclick='() => IrASeccion("educacion")'>
                             <i class="fas fa-graduation-cap fa-2x mb-2 d-block"></i>
                             <span class="fw-semibold">Educación</span>
-                            <small class="d-block text-muted">@docente.CantidadEducaciones registros</small>
+                            <small class="d-block text-muted">@docente.CantidadEducaciones registro@(docente.CantidadEducaciones != 1 ? "s" : "")</small>
                         </button>
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-outline-success w-100 h-100" @onclick='() => IrASeccion("experiencia")'>
                             <i class="fas fa-briefcase fa-2x mb-2 d-block"></i>
                             <span class="fw-semibold">Experiencia</span>
-                            <small class="d-block text-muted">@docente.CantidadExperiencias registros</small>
+                            <small class="d-block text-muted">@docente.CantidadExperiencias registro@(docente.CantidadExperiencias != 1 ? "s" : "")</small>
                         </button>
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-outline-info w-100 h-100" @onclick='() => IrASeccion("publicaciones")'>
                             <i class="fas fa-book fa-2x mb-2 d-block"></i>
                             <span class="fw-semibold">Publicaciones</span>
-                            <small class="d-block text-muted">@docente.CantidadPublicaciones registros</small>
+                            <small class="d-block text-muted">@docente.CantidadPublicaciones registro@(docente.CantidadPublicaciones != 1 ? "s" : "")</small>
                         </button>
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-outline-warning w-100 h-100" @onclick='() => IrASeccion("proyectos")'>
                             <i class="fas fa-lightbulb fa-2x mb-2 d-block"></i>
                             <span class="fw-semibold">Proyectos</span>
-                            <small class="d-block text-muted">@docente.CantidadProyectos registros</small>
+                            <small class="d-block text-muted">@docente.CantidadProyectos registro@(docente.CantidadProyectos != 1 ? "s" : "")</small>
                         </button>
                     </div>
                 </div>
